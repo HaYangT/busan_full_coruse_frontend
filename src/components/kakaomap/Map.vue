@@ -1,41 +1,72 @@
 <template>
   <div id="map"></div>
+  
+  <div class="coords-info">
+    <h3>현재 지도 중심 좌표</h3>
+    <p>위도: **{{ centerLat.toFixed(6) }}**</p>
+    <p>경도: **{{ centerLng.toFixed(6) }}**</p>
+  </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
-const getCurrentLocation = () =>{
-    return new Promise((resolve)=>{
-        if(!navigator.geolocation){
-            console.error("에러 발생");
-            resolve(COORDS);
-            return;
-        }
-        navigator.geolocation.getCurrentPosition(
-            (positon) =>{
-                resolve({
-                    LAT : positon.coords.latitude,
-                    LNG: positon.coords.longitude,
-                },
-                {
-                    timeout: 5000, //타임아웃
-                }
-            )
-            }
-        )
-    })
-}
+const centerLat = ref(0);
+const centerLng = ref(0);
+
+const DEFAULT_COORDS = {
+    LAT: 33.450701, 
+    LNG: 126.570667,
+};
+
+const getCurrentLocation = () => {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) {
+      console.error("Geolocation을 지원하지 않는 브라우저입니다.");
+      resolve(DEFAULT_COORDS);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          LAT: position.coords.latitude,
+          LNG: position.coords.longitude,
+        });
+      },
+      (error) => {
+        console.error("위치 정보를 가져오는 데 실패했습니다:", error);
+        resolve(DEFAULT_COORDS);
+      },
+      {
+        timeout: 5000, 
+      }
+    );
+  });
+};
 
 const loadKakaoMap = async () => {
   const COORDS = await getCurrentLocation();
-  const container = document.getElementById('map'); 
+  const container = document.getElementById('map');
+
+  centerLat.value = COORDS.LAT;
+  centerLng.value = COORDS.LNG;
+
   const options = {
-    center: new window.kakao.maps.LatLng(COORDS.LAT,COORDS.LNG), // 지도의 중심좌
-    level: 3 // 지도의 확대 레벨
+    center: new window.kakao.maps.LatLng(COORDS.LAT, COORDS.LNG),
+    level: 3
   };
 
-  new window.kakao.maps.Map(container, options); 
+  const map = new window.kakao.maps.Map(container, options);
+
+  window.kakao.maps.event.addListener(map, 'dragend', () => {
+    // 지도 중심 좌표를 얻어옵니다
+    const latlng = map.getCenter();
+    centerLat.value = latlng.getLat();
+    centerLng.value = latlng.getLng();
+
+    // 콘솔 출력 (선택 사항)
+    console.log(`변경된 지도 중심좌표: 위도 ${centerLat.value}, 경도 ${centerLng.value}`);
+  });
 };
 
 onMounted(() => {
@@ -59,6 +90,27 @@ onMounted(() => {
 <style scoped>
 #map {
   width: 100%;
-  height: 100dvh;
+  height: 100dvh; 
+}
+
+.coords-info {
+  position: absolute; 
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 10; 
+  font-family: sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.coords-info h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+}
+.coords-info p {
+    margin: 4px 0;
+    font-size: 0.9em;
 }
 </style>
