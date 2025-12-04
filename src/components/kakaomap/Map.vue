@@ -31,7 +31,7 @@ const loadKakaoMap = async () => {
   const COORDS = await getCurrentLocation();
   const container = document.getElementById('map'); 
   const options = {
-    center: new window.kakao.maps.LatLng(COORDS.LAT,COORDS.LNG), // 지도의 중심좌표
+    center: new window.kakao.maps.LatLng(COORDS.LAT,COORDS.LNG), // 지도의 중심좌
     level: 3 // 지도의 확대 레벨
   };
 
@@ -59,6 +59,6 @@ onMounted(() => {
 <style scoped>
 #map {
   width: 100%;
-  height: 400px; 
+  height: 100dvh;
 }
 </style>
