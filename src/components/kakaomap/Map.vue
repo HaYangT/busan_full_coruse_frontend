@@ -59,12 +59,12 @@ const loadKakaoMap = async () => {
   const map = new window.kakao.maps.Map(container, options);
 
   window.kakao.maps.event.addListener(map, 'dragend', () => {
-    // 지도 중심 좌표를 얻어옵니다
     const latlng = map.getCenter();
     centerLat.value = latlng.getLat();
     centerLng.value = latlng.getLng();
-
-    // 콘솔 출력 (선택 사항)
+    /*
+    여기에 거리별로 불러오는 쿼리 날려야함
+    */
     console.log(`변경된 지도 중심좌표: 위도 ${centerLat.value}, 경도 ${centerLng.value}`);
   });
 };
