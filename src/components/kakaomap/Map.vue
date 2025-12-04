@@ -5,11 +5,33 @@
 <script setup>
 import { onMounted } from 'vue';
 
-const loadKakaoMap = () => {
-  const container = document.getElementById('map'); 
+const getCurrentLocation = () =>{
+    return new Promise((resolve)=>{
+        if(!navigator.geolocation){
+            console.error("에러 발생");
+            resolve(COORDS);
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            (positon) =>{
+                resolve({
+                    LAT : positon.coords.latitude,
+                    LNG: positon.coords.longitude,
+                },
+                {
+                    timeout: 5000, //타임아웃
+                }
+            )
+            }
+        )
+    })
+}
 
+const loadKakaoMap = async () => {
+  const COORDS = await getCurrentLocation();
+  const container = document.getElementById('map'); 
   const options = {
-    center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표 (현재 사용자의 위치로 고정 예정)
+    center: new window.kakao.maps.LatLng(COORDS.LAT,COORDS.LNG), // 지도의 중심좌표
     level: 3 // 지도의 확대 레벨
   };
 
