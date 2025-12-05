@@ -8,17 +8,19 @@
         <KakaoMap />
       </div>
     </div>
-    <PageButton 
-      :is-menu-page-visible="isMenuPageVisible"
-      @toggle-menu-page="isMenuPageVisible = !isMenuPageVisible" 
-      :class="{ 
-        'fixed-button': true, 
-        'button-closed': !isMenuPageVisible, 
-        'button-open': isMenuPageVisible 
-      }"
+
+    <ToggleButton 
+      v-if="!isMenuPageVisible"
+      :is-open="false" 
+      @click="isMenuPageVisible = true"
+      class="app-toggle-button"
     />
 
-    <MenuPage v-if="isMenuPageVisible" @close="isMenuPageVisible = false" />
+    <MenuPage 
+      v-if="isMenuPageVisible" 
+      :is-menu-page-visible="isMenuPageVisible"
+      @toggle-menu-page="handleToggleMenu"
+    />
   </div>
 </template>
 
@@ -27,13 +29,16 @@ import { ref } from 'vue';
 import KakaoMap from '@/components/kakaomap/Map.vue'; 
 import MenuBar from '@/components/pages/MenuBar.vue';
 import MenuPage from '@/components/pages/MenuPage.vue'; 
-import PageButton from '@/components/pages/PageButton.vue';
+import ToggleButton from '@/components/pages/ToggleButton.vue'; 
 
 const isMenuPageVisible = ref(false);
+
+const handleToggleMenu = () => {
+  isMenuPageVisible.value = !isMenuPageVisible.value;
+};
 </script>
 
 <style>
-
 html, body {
   margin: 0;
   padding: 0;
@@ -48,6 +53,7 @@ html, body {
   display: flex;
   height: 100%;
   position: relative; 
+  overflow: hidden;
 }
 
 .sidebar {
@@ -56,31 +62,25 @@ html, body {
   background-color: #333;
   color: white;
   overflow-y: auto; 
+  z-index: 1001;
 }
 
 .content-area {
   flex-grow: 1;
-  padding: 20px;
-  overflow-y: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .app-container {
   text-align: center;
 }
 
-.fixed-button {
+.app-toggle-button {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 9999; 
-  transition: left 0.3s ease-in-out;
-}
+  left: 250px;
+  z-index: 1000;
 
-.button-closed {
-  left: 250px; 
-}
-
-.button-open {
-  left: calc(250px + 400px); 
 }
 </style>

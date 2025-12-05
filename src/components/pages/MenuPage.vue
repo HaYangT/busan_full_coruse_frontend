@@ -1,66 +1,110 @@
 <template>
   <div class="menu-page-container">
+    
+    <ToggleButton 
+      v-if="!selectedItem" 
+      :is-open="isMenuPageVisible" 
+      @click="$emit('toggle-menu-page')" 
+    />
+
     <div class="menu-page-header">
-      
-        <h2>페이지 상세 정보</h2>
-        <button @click="$emit('close')" class="close-button">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
+      <h2>페이지 상세 정보</h2>
+      </div>
+    
+    <div class="image-container">
+      <img :src="imgUrl" class="custom-image" />
     </div>
-    <div class = "image-container">
-    <img :src = "imgUrl" class="custom-image"></img>
-    </div>
+
     <div>
       <SubMenuBar></SubMenuBar>
+      <ul class="mock-list">
+        <li 
+          v-for="item in mockList" 
+          :key="item.id" 
+          @click="openDetail(item)"
+          class="list-item"
+          :class="{ active: selectedItem?.id === item.id }" 
+        >
+          {{ item.name }}
+        </li>
+      </ul>
     </div>
+
     <div class="menu-page-content">
-      <p>현재는 **임시 소형 페이지** 용도로 사용되며, 지도 정보나 추가적인 설정을 표시할 수 있습니다.</p>
-      <p>이 컴포넌트는 `App.vue`에서 **조건부 렌더링**되고 있습니다.</p>
-      <div class="p-4 bg-gray-100 rounded-lg mt-4">
-        <p class="font-semibold">페이지 정보</p>
-        <p class="text-sm">이 패널은 MenuBar(250px) 바로 오른쪽에 위치하며, 버튼은 이 패널의 오른쪽 끝에 고정됩니다.</p>
-      </div>
+      <p>현재는 **임시 소형 페이지** 용도로 사용됩니다.</p>
     </div>
   </div>
+
+  <Transition name="slide-fade">
+    <DetailPage 
+      v-if="selectedItem" 
+      :item="selectedItem" 
+      @close="closeDetail"
+      @toggle-all="$emit('toggle-menu-page')"
+    />
+  </Transition>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import SubMenuBar from './SubMenuBar.vue';
-
+import DetailPage from './DetailPage.vue';
+import ToggleButton from './ToggleButton.vue';
 const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
-defineEmits(['close']);
+const mockList = ref([
+  { id: 1, name: "삼성해수욕장" },
+  { id: 2, name: "바람의 언덕" },
+  { id: 3, name: "거제 포로수용소 유적공원" },
+  { id: 4, name: "해금강" },
+]);
+
+
+const selectedItem = ref(null);
+const openDetail = (item) => {
+  selectedItem.value = item; 
+};
+
+const closeDetail = () => {
+  selectedItem.value = null; 
+};
+
+defineProps({
+    isMenuPageVisible: { type: Boolean, default: false },
+});
+defineEmits(['toggle-menu-page', 'close']);
 </script>
 
 <style scoped>
+/* MenuPage.vue 의 style 영역 */
 .menu-page-container {
-  position: fixed; 
+  position: fixed;
   top: 0;
-  left: 250px; /* MenuBar 너비 */
-  width: 400px; /* 소형 페이지 너비 */
-  height: 100vh; /* 전체 뷰포트 높이 */
+  left: 250px;
+  width: 400px;
+  height: 100vh;
   background: white;
-  border-left: 1px solid #ccc; /* MenuBar와의 경계 */
+  border-left: 1px solid #ccc;
   box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-  z-index: 999; 
+  z-index: 999;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  
+  /* [중요] 버튼이 밖으로 튀어나와 보여야 하므로 visible */
+  overflow: visible; 
 }
-
 .menu-page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-    background-color: #f7f7f7;
-    flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background-color: #f7f7f7;
+  flex-shrink: 0;
 }
 
 .menu-page-content {
   padding: 20px;
-  overflow-y: auto; 
+  overflow-y: auto;
   flex-grow: 1;
 }
 
@@ -75,16 +119,54 @@ defineEmits(['close']);
 }
 
 .close-button:hover {
-    background-color: #eee;
+  background-color: #eee;
 }
+
 .image-container {
   width: 100%;
 }
 
 .custom-image {
-  width: 100%;    
-  height: 200px;  
-  object-fit: cover; 
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.mock-list {
+  list-style: none;
+  padding: 0 20px;
+  margin-top: 10px;
+}
+
+.mock-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.list-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.list-item.active {
+  background-color: #e6f7ff;
+  font-weight: bold;
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
 }
 
 </style>
