@@ -1,10 +1,14 @@
 <template>
   <div class="detail-page-container">
     <div class="detail-page-header">
+      
         <h2>페이지 상세 정보</h2>
         <button @click="$emit('close')" class="close-button">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
+    </div>
+    <div class = "image-container">
+    <img :src = "imgUrl" class="custom-image"></img>
     </div>
     <div class="detail-page-content">
       <p>여기는 `Detail.vue` 컴포넌트입니다.</p>
@@ -19,7 +23,9 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 
+const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
 defineEmits(['close']);
 </script>
 
@@ -68,4 +74,14 @@ defineEmits(['close']);
 .close-button:hover {
     background-color: #eee;
 }
+.image-container {
+  width: 100%;
+}
+
+.custom-image {
+  width: 100%;    
+  height: 200px;  
+  object-fit: cover; 
+}
+
 </style>
