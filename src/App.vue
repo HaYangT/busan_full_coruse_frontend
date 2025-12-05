@@ -9,16 +9,16 @@
       </div>
     </div>
     <PageButton 
-      :is-detail-visible="isDetailVisible"
-      @toggle-detail="isDetailVisible = !isDetailVisible" 
+      :is-menu-page-visible="isMenuPageVisible"
+      @toggle-menu-page="isMenuPageVisible = !isMenuPageVisible" 
       :class="{ 
         'fixed-button': true, 
-        'button-closed': !isDetailVisible, 
-        'button-open': isDetailVisible 
+        'button-closed': !isMenuPageVisible, 
+        'button-open': isMenuPageVisible 
       }"
     />
 
-    <Detail v-if="isDetailVisible" @close="isDetailVisible = false" />
+    <MenuPage v-if="isMenuPageVisible" @close="isMenuPageVisible = false" />
   </div>
 </template>
 
@@ -26,9 +26,10 @@
 import { ref } from 'vue';
 import KakaoMap from '@/components/kakaomap/Map.vue'; 
 import MenuBar from '@/components/pages/MenuBar.vue';
-import Detail from '@/components/pages/Detail.vue'; 
-import PageButton from '@/components/pages/PageButton.vue'; // ⭐️ PageButton 임포트
-const isDetailVisible = ref(false);
+import MenuPage from '@/components/pages/MenuPage.vue'; 
+import PageButton from '@/components/pages/PageButton.vue';
+
+const isMenuPageVisible = ref(false);
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 <template>
-  <button @click="$emit('toggle-detail')" class="toggle-button">
-    <svg v-if="!isDetailVisible" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+  <button @click="$emit('toggle-menu-page')" class="toggle-button">
+    <svg v-if="!isMenuPageVisible" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
     <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
   </button>
 </template>
@@ -9,18 +9,18 @@
 import { defineProps } from 'vue';
 
 defineProps({
-    isDetailVisible: {
+    isMenuPageVisible: {
         type: Boolean,
         default: false
     }
 });
 
-defineEmits(['toggle-detail']);
+defineEmits(['toggle-menu-page']);
 </script>
 
 <style scoped>
 .toggle-button {
-  /* 버튼 기본 스타일 */
+
   display: flex;
   justify-content: center;
   align-items: center;

@@ -14,7 +14,6 @@
       </li>
     </ul>
 
-    <!-- ⭐️ PageButton 컴포넌트 제거됨. 이제 App.vue에서 직접 관리합니다. -->
     
     <div class="action-footer">
       <button @click="handleLogin" class="action-button primary">로그인</button>
@@ -25,8 +24,6 @@
 <script setup>
 import { reactive } from 'vue';
 import { useRouter, RouterLink } from 'vue-router'; 
-// ⭐️ PageButton 임포트 제거
-// import PageButton from './PageButton.vue'; 
 
 const router = useRouter();
 
@@ -38,22 +35,17 @@ const menuItems = reactive([
 ]);
 
 const handleLogin = () => {
-  // 실제 로그인 라우트로 이동
   router.push('/login');
 };
 
-// ⭐️ emit 정의 제거
-// defineEmits(['toggle-detail']);
 </script>
 
 <style scoped>
-/* 새롭게 추가된 내비게이션 스타일 */
 .sidebar-nav {
   display: flex;
   flex-direction: column; 
   height: 100%; 
   padding: 0;
-  /* MenuBar의 배경색은 App.vue에서 처리됨 (#333) */
 }
 
 .brand-header {
@@ -72,8 +64,8 @@ const handleLogin = () => {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* 남은 공간을 차지하여 하단 요소들을 밀어냅니다. */
-  overflow-y: auto; /* 메뉴가 길어지면 스크롤 가능 */
+  flex-grow: 1; 
+  overflow-y: auto; 
 }
 
 .menu-item {
@@ -106,7 +98,6 @@ const handleLogin = () => {
 .action-footer {
   padding: 20px;
   border-top: 1px solid #444;
-  /* position: sticky나 flex-shrink: 0 을 사용하여 Footer가 고정되도록 합니다. */
   flex-shrink: 0;
 }
 .action-button.primary {
@@ -119,5 +110,4 @@ const handleLogin = () => {
   cursor: pointer;
 }
 
-/* ⭐️ PageButton 관련 스타일 제거됨 */
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="detail-page-container">
-    <div class="detail-page-header">
+  <div class="menu-page-container">
+    <div class="menu-page-header">
       
         <h2>페이지 상세 정보</h2>
         <button @click="$emit('close')" class="close-button">
@@ -10,8 +10,10 @@
     <div class = "image-container">
     <img :src = "imgUrl" class="custom-image"></img>
     </div>
-    <div class="detail-page-content">
-      <p>여기는 `Detail.vue` 컴포넌트입니다.</p>
+    <div>
+      <SubMenuBar></SubMenuBar>
+    </div>
+    <div class="menu-page-content">
       <p>현재는 **임시 소형 페이지** 용도로 사용되며, 지도 정보나 추가적인 설정을 표시할 수 있습니다.</p>
       <p>이 컴포넌트는 `App.vue`에서 **조건부 렌더링**되고 있습니다.</p>
       <div class="p-4 bg-gray-100 rounded-lg mt-4">
@@ -24,13 +26,14 @@
 
 <script setup>
 import { ref } from 'vue';
+import SubMenuBar from './SubMenuBar.vue';
 
 const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
 defineEmits(['close']);
 </script>
 
 <style scoped>
-.detail-page-container {
+.menu-page-container {
   position: fixed; 
   top: 0;
   left: 250px; /* MenuBar 너비 */
@@ -39,13 +42,13 @@ defineEmits(['close']);
   background: white;
   border-left: 1px solid #ccc; /* MenuBar와의 경계 */
   box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-  z-index: 999; /* ⭐️ z-index를 높여서 버튼 아래에 위치하도록 조정 */
+  z-index: 999; 
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.detail-page-header {
+.menu-page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,7 +58,7 @@ defineEmits(['close']);
     flex-shrink: 0;
 }
 
-.detail-page-content {
+.menu-page-content {
   padding: 20px;
   overflow-y: auto; 
   flex-grow: 1;
