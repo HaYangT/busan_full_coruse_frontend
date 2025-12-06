@@ -3,7 +3,7 @@
     <button
      class ="main-login-button"
       @click = "isLoginPageVisible = true"
-      v-show="!isLoginPageVisible"
+      v-show="!isLoginPageVisible && !isRegistPageVisible"
       >
       로그인
     </button> 
