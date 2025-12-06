@@ -30,8 +30,21 @@
       @toggle-menu-page="handleToggleMenu"
     />
     <LoginPage
-    v-if ="isLoginPageVisible"
-    @close= "isLoginPageVisible = false"
+   v-if="isLoginPageVisible"
+    @close="isLoginPageVisible = false"
+    @open-register="
+    isLoginPageVisible = false;
+    isRegistPageVisible = true;
+  "
+/>
+
+    <RegistPage
+    v-if = "isRegistPageVisible"
+    @close = "isRegistPageVisible = false"
+    @open-login = "
+      isRegistPageVisible = false;
+      isLoginPageVisible = true;
+    "
     />
   </div>
 </template>
@@ -43,9 +56,11 @@ import MenuBar from '@/components/pages/MenuBar.vue';
 import MenuPage from '@/components/pages/MenuPage.vue'; 
 import ToggleButton from '@/components/pages/ToggleButton.vue'; 
 import LoginPage from './components/auth/LoginPage.vue';
+import RegistPage from './components/auth/RegistPage.vue';
 
 const isMenuPageVisible = ref(false);
 const isLoginPageVisible  = ref(false);
+const isRegistPageVisible = ref(false);
 const handleToggleMenu = () => {
   isMenuPageVisible.value = !isMenuPageVisible.value;
 };

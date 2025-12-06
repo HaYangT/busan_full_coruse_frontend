@@ -20,8 +20,8 @@
       </form>
 
       <div class="links">
-        <RouterLink to="/register" class="link" @click="$emit('close')">회원가입</RouterLink>
-        <RouterLink to="/forgot" class="link" @click="$emit('close')">비밀번호 찾기</RouterLink>
+        <RouterLink to="/regist" class="link" @click.prevent = "$emit('open-register')">회원가입</RouterLink>
+        <RouterLink to="/resetpassword" class="link" @click="$emit('close')">비밀번호 찾기</RouterLink>
       </div>
       <button class="close-btn" @click="$emit('close')">X</button>
     </div>
