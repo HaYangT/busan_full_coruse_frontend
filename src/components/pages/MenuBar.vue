@@ -2,7 +2,7 @@
   <nav class="sidebar-nav"> 
     <div class="brand-header">
       <RouterLink to="/" class="brand-link">
-        🧭 Navigation
+        메뉴
       </RouterLink>
     </div>
 
@@ -13,11 +13,6 @@
         </RouterLink>
       </li>
     </ul>
-
-    
-    <div class="action-footer">
-      <button @click="handleLogin" class="action-button primary">로그인</button>
-    </div>
   </nav>
 </template>
 
@@ -29,9 +24,6 @@ const router = useRouter();
 
 const menuItems = reactive([
   { name: '홈', path: '/' },
-  { name: '대시보드', path: '/dashboard' },
-  { name: '지도 설정', path: '/settings' },
-  { name: 'About', path: '/about' },
 ]);
 
 const handleLogin = () => {

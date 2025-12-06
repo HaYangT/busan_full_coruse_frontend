@@ -1,5 +1,13 @@
 <template>
   <div class="main-layout">
+    <button
+     class ="main-login-button"
+      @click = "isLoginPageVisible = true"
+      v-show="!isLoginPageVisible"
+      >
+      로그인
+    </button> 
+
     <MenuBar class="sidebar"></MenuBar>
 
     <div class="content-area">
@@ -21,6 +29,10 @@
       :is-menu-page-visible="isMenuPageVisible"
       @toggle-menu-page="handleToggleMenu"
     />
+    <LoginPage
+    v-if ="isLoginPageVisible"
+    @close= "isLoginPageVisible = false"
+    />
   </div>
 </template>
 
@@ -30,15 +42,16 @@ import KakaoMap from '@/components/kakaomap/Map.vue';
 import MenuBar from '@/components/pages/MenuBar.vue';
 import MenuPage from '@/components/pages/MenuPage.vue'; 
 import ToggleButton from '@/components/pages/ToggleButton.vue'; 
+import LoginPage from './components/auth/LoginPage.vue';
 
 const isMenuPageVisible = ref(false);
-
+const isLoginPageVisible  = ref(false);
 const handleToggleMenu = () => {
   isMenuPageVisible.value = !isMenuPageVisible.value;
 };
 </script>
 
-<style>
+<style >
 html, body {
   margin: 0;
   padding: 0;
@@ -81,6 +94,18 @@ html, body {
   transform: translateY(-50%);
   left: 250px;
   z-index: 1000;
-
+}
+.main-login-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 16px;
+  background: #4a90e2;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2000;
 }
 </style>
