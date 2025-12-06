@@ -1,0 +1,33 @@
+.review-page-container {
+  position: fixed;
+  top: 0;
+  left: 650px; 
+  width: 350px; 
+  height: 100vh;
+  background: white;
+  border-left: 1px solid #ccc;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 998; 
+  display: flex;
+  flex-direction: column;
+}
+
+.review-header {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fafafa;
+}
+
+.review-content {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.close-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: bold;
+}

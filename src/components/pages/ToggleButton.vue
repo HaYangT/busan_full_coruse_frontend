@@ -17,38 +17,5 @@ defineEmits(['click']);
 </script>
 
 <style scoped>
-.toggle-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: -24px; /* 컨테이너 바깥 오른쪽에 붙음 */
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 24px;
-  height: 60px;
-  background-color: #fff;
-  color: #444;
-  border: 1px solid #ddd;
-  border-left: none;
-  cursor: pointer;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  z-index: 10;
-  transition: all 0.3s ease;
-}
-
-.toggle-button:hover {
-  background-color: #42b983;
-  color: white;
-  width: 32px;
-  right: -32px;
-}
-
-.icon {
-  width: 16px;
-  height: 16px;
-}
+@import '/src/styles/ToggleButton.css'
 </style>

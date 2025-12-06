@@ -66,61 +66,6 @@ const handleToggleMenu = () => {
 };
 </script>
 
-<style >
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-#app {
-  height: 100vh;
-}
-
-.main-layout {
-  display: flex;
-  height: 100%;
-  position: relative; 
-  overflow: hidden;
-}
-
-.sidebar {
-  width: 250px; 
-  flex-shrink: 0;
-  background-color: #333;
-  color: white;
-  overflow-y: auto; 
-  z-index: 1001;
-}
-
-.content-area {
-  flex-grow: 1;
-  position: relative;
-  z-index: 1;
-}
-
-.app-container {
-  text-align: center;
-}
-
-.app-toggle-button {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 250px;
-  z-index: 1000;
-}
-.main-login-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px 16px;
-  background: #4a90e2;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 2000;
-}
+<style>
+@import '/src/styles/App.css';
 </style>
