@@ -21,7 +21,7 @@
 
       <div class="links">
         <RouterLink to="/regist" class="link" @click.prevent = "$emit('open-register')">회원가입</RouterLink>
-        <RouterLink to="/resetpassword" class="link" @click="$emit('close')">비밀번호 찾기</RouterLink>
+        <RouterLink to="/resetpassword" class="link" @click.prevent="$emit('open-resetpassword')">비밀번호 찾기</RouterLink>
       </div>
       <button class="close-btn" @click="$emit('close')">X</button>
     </div>
