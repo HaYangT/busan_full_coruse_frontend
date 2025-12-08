@@ -6,14 +6,23 @@
     <p>위도: **{{ centerLat.toFixed(6) }}**</p>
     <p>경도: **{{ centerLng.toFixed(6) }}**</p>
   </div>
+  <input
+  id = "distInput"
+  type = "number"
+  v-model="dist"
+  @change= "handleDistChange"
+  step = "100"
+  min = "100"
+  />
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
-
+import axios from 'axios'
 const centerLat = ref(0);
 const centerLng = ref(0);
-
+const dist = ref(100);
+const places = ref([]);
 const DEFAULT_COORDS = {
     LAT: 33.450701, 
     LNG: 126.570667,
@@ -44,6 +53,31 @@ const getCurrentLocation = () => {
   });
 };
 
+
+
+  const fetchPlaces = async(lat,lng) =>{
+    try{
+      const baseUrl = import.meta.env.VITE_SERVER_URL;
+      const url = `${baseUrl}/api/v1/place/getPlaces`
+      const response = await axios.get(url,{
+        params:{
+          x: lng,
+          y: lat,
+          dist: dist.value
+        }
+      });
+      console.log("응답",response.data);
+      places.value = response.data;
+    }    catch(error){
+      console.error("에러발생", error);
+    }
+  }
+
+  const handleDistChange = () =>{
+    if(centerLat.value && centerLng.value) {
+      fetchPlaces(centerLat.value,centerLng.value);
+    }
+  };
 const loadKakaoMap = async () => {
   const COORDS = await getCurrentLocation();
   const container = document.getElementById('map');
@@ -56,18 +90,18 @@ const loadKakaoMap = async () => {
     level: 3
   };
 
+
   const map = new window.kakao.maps.Map(container, options);
 
-  window.kakao.maps.event.addListener(map, 'dragend', () => {
+  window.kakao.maps.event.addListener(map, 'dragend', async () => {
     const latlng = map.getCenter();
-    centerLat.value = latlng.getLat();
-    centerLng.value = latlng.getLng();
-    /*
-    여기에 거리별로 불러오는 쿼리 날려야함
-    */
-    console.log(`변경된 지도 중심좌표: 위도 ${centerLat.value}, 경도 ${centerLng.value}`);
+    const lat = latlng.getLat();
+    const lng = latlng.getLng();
+    fetchPlaces(lat,lng);
+
   });
 };
+
 
 onMounted(() => {
   if (window.kakao && window.kakao.maps) {
