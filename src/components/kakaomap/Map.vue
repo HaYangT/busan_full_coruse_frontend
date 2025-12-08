@@ -154,7 +154,7 @@ const loadKakaoMap = async () => {
 
     fetchPlaces(COORDS.LAT, COORDS.LNG); 
     window.kakao.maps.event.addListener(map.value, 'dragend', async () => {
-        const latlng = map.value.getCenter(); // map -> map.value로 수정
+        const latlng = map.value.getCenter(); 
         const lat = latlng.getLat();
         const lng = latlng.getLng();
         centerLat.value = lat;
