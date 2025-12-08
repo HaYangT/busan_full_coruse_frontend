@@ -1,6 +1,5 @@
 <template>
   <div class="menu-page-container">
-    
     <ToggleButton 
       v-if="!selectedItem" 
       :is-open="isMenuPageVisible" 
@@ -17,9 +16,10 @@
 
     <div>
       <SubMenuBar></SubMenuBar>
-      <ul class="mock-list">
+      <div class="list-scroll-wrapper">
+      <ul class="place-list">
         <li 
-          v-for="item in mockList" 
+          v-for="item in places" 
           :key="item.id" 
           @click="openDetail(item)"
           class="list-item"
@@ -28,10 +28,7 @@
           {{ item.name }}
         </li>
       </ul>
-    </div>
-
-    <div class="menu-page-content">
-      <p>현재는 **임시 소형 페이지** 용도로 사용됩니다.</p>
+      </div>
     </div>
   </div>
 
@@ -46,20 +43,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import SubMenuBar from './SubMenuBar.vue';
 import DetailPage from './DetailPage.vue';
 import ToggleButton from './ToggleButton.vue';
 const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
-const mockList = ref([
-  { id: 1, name: "삼성해수욕장" },
-  { id: 2, name: "바람의 언덕" },
-  { id: 3, name: "거제 포로수용소 유적공원" },
-  { id: 4, name: "해금강" },
-]);
-
-
+const isLoading = ref(false);
 const selectedItem = ref(null);
+
+
+
 const openDetail = (item) => {
   selectedItem.value = item; 
 };
@@ -67,11 +60,20 @@ const openDetail = (item) => {
 const closeDetail = () => {
   selectedItem.value = null; 
 };
-
-defineProps({
-    isMenuPageVisible: { type: Boolean, default: false },
+const props = defineProps({
+  isMenuPageVisible: { type: Boolean, default: false },
+  places: {
+    type: Array,
+    default: () => [],
+  },
+  centerInfo: {
+    type: Object,
+    default: () => ({ lat: 0, lng: 0, dist: 1 }),
+  }
 });
+
 defineEmits(['toggle-menu-page', 'close']);
+
 </script>
 
 <style scoped>

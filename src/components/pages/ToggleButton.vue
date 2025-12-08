@@ -17,5 +17,5 @@ defineEmits(['click']);
 </script>
 
 <style scoped>
-@import '/src/styles/ToggleButton.css'
+@import '/src/styles/ToggleButton.css';
 </style>

@@ -10,14 +10,22 @@
     <div class="content-area">
       <div class="app-container">
         <h1>카카오맵 연동 테스트</h1>
-        <KakaoMap />
+        <KakaoMap 
+        @update-center = "handleCenterUpdate"
+        @update-places = "handlePlacesUpdate"
+        />
       </div>
     </div>
 
     <ToggleButton v-if="!isMenuPageVisible" :is-open="false" @click="isMenuPageVisible = true"
       class="app-toggle-button" />
 
-    <MenuPage v-if="isMenuPageVisible" :is-menu-page-visible="isMenuPageVisible" @toggle-menu-page="handleToggleMenu" />
+    <MenuPage v-if="isMenuPageVisible" 
+    :is-menu-page-visible="isMenuPageVisible"
+     @toggle-menu-page="handleToggleMenu"
+     :places ="currentPlaces"
+     :center-info="centerInfo"
+     />
     <LoginPage v-if="isLoginPageVisible" @close="isLoginPageVisible = false" @open-register="
       isLoginPageVisible = false;
     isRegistPageVisible = true;
@@ -50,9 +58,20 @@ const isMenuPageVisible = ref(false);
 const isLoginPageVisible = ref(false);
 const isRegistPageVisible = ref(false);
 const isResetPasswordVisible = ref(false);
+
+const currentPlaces = ref([]);
+const centerInfo = ref({});
+
 const handleToggleMenu = () => {
   isMenuPageVisible.value = !isMenuPageVisible.value;
 };
+const handlePlacesUpdate = (newPlaces)=>{
+  currentPlaces.value = newPlaces;
+}
+const handleCenterUpdate = (info)=>{
+  centerInfo.value= info;
+}
+
 </script>
 
 <style>

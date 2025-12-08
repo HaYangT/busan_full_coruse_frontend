@@ -3,17 +3,20 @@
   
   <div class="coords-info">
     <h3>현재 지도 중심 좌표</h3>
+    <div class="input-group">
+      <label for="distInput">검색 반경(Km): </label>
+      <input 
+        id="distInput" 
+        type="number" 
+        v-model="dist" 
+        @change="handleDistChange"
+        step="0.1"
+        min="0.1"
+      />
+    </div>
     <p>위도: **{{ centerLat.toFixed(6) }}**</p>
     <p>경도: **{{ centerLng.toFixed(6) }}**</p>
   </div>
-  <input
-  id = "distInput"
-  type = "number"
-  v-model="dist"
-  @change= "handleDistChange"
-  step = "100"
-  min = "100"
-  />
 </template>
 
 <script setup>
@@ -21,8 +24,9 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios'
 const centerLat = ref(0);
 const centerLng = ref(0);
-const dist = ref(100);
+const dist = ref(0.1);
 const places = ref([]);
+const emit = defineEmits(['update-places','update-center']);
 const DEFAULT_COORDS = {
     LAT: 33.450701, 
     LNG: 126.570667,
@@ -55,7 +59,7 @@ const getCurrentLocation = () => {
 
 
 
-  const fetchPlaces = async(lat,lng) =>{
+  const fetchPlaces = async(lat,lng) => {
     try{
       const baseUrl = import.meta.env.VITE_SERVER_URL;
       const url = `${baseUrl}/api/v1/place/getPlaces`
@@ -66,7 +70,8 @@ const getCurrentLocation = () => {
           dist: dist.value
         }
       });
-      console.log("응답",response.data);
+      emit('update-places',response.data);
+      emit('update-center',{lat: lat, lng : lng, dist: dist.value});
       places.value = response.data;
     }    catch(error){
       console.error("에러발생", error);
