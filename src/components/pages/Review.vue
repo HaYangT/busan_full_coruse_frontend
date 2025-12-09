@@ -16,5 +16,5 @@ defineEmits(['close']);
 </script>
 
 <style scoped>
-@import '/src/styles//Review.css';
+@import '/src/styles/Review.css';
 </style>

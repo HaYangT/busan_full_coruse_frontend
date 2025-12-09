@@ -10,5 +10,5 @@
 </script>
 
 <style scoped>
-
+@import '/src/styles/SubMenuBar.css';
 </style>

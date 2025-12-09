@@ -99,6 +99,7 @@ const MOCK_PLACES = [
   {id:789, name: '한라산', x: 126.533281, y: 33.361665 },
 ];
   const fetchPlaces = async(lat,lng) => {
+
     /* 테스트용 후에 주석 제어해야함
     try{
       const baseUrl = import.meta.env.VITE_SERVER_URL;

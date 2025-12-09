@@ -43,7 +43,6 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import SubMenuBar from './SubMenuBar.vue';
 import DetailPage from './DetailPage.vue';
 import ToggleButton from './ToggleButton.vue';
 const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
