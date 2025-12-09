@@ -14,14 +14,24 @@
         </svg>
       </button>
     </div>
-    
+        <div class = "submenu-bar">
+        <SubMenuBar/>
+      </div>    
     <div class="detail-content">
-       </div>
+      <Review
+      v-if="isReviewVisible"
+      @add-to-list ="isReviewVisible = false;"
+      @use-ai-recommand="isReviewVisible = false;"
+      />
+    </div>
   </div>
 </template>
 <script setup>
 import ToggleButton from './ToggleButton.vue'; 
-
+import SubMenuBar from './SubMenuBar.vue';
+import Review from './Review.vue';
+import { ref } from 'vue';
+const isReviewVisible = ref(true);
 defineProps({
   item: { type: Object, required: true }
 });

@@ -15,7 +15,6 @@
     </div>
 
     <div>
-      <SubMenuBar></SubMenuBar>
       <div class="list-scroll-wrapper">
       <ul class="place-list">
         <li 

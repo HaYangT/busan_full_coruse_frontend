@@ -77,12 +77,12 @@ const displayMarkers = (placeList) => {
         const marker = new window.kakao.maps.Marker({
             map: map.value, 
             position: position,
-            title: place.place_name, 
+            title: place.name, 
         });
 
         markers.value.push(marker);
         const infowindow = new window.kakao.maps.InfoWindow({
-            content: `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`
+            content: `<div style="padding:5px;font-size:12px;">${place.name}</div>`
         });
         window.kakao.maps.event.addListener(marker, 'mouseover', function() {
               infowindow.open(map.value, marker);
