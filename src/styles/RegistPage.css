@@ -67,3 +67,16 @@
   font-size: 14px;
   text-decoration: none; 
 }
+
+.input-error {
+  border-color: #ff4d4f !important;
+  background-color: #fff6f6;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 13px;
+  margin-top: -6px; 
+  margin-bottom: 4px;
+  padding-left: 2px;
+}

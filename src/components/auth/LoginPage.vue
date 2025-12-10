@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
+  <div class="modal-overlay">
     <div class="modal-box">
       <h2>로그인</h2>
 
@@ -29,16 +29,35 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { ref } from "vue";
 
 const id = ref("");
 const password = ref("");
 
-/*
-const onLogin = async () => {
 
+const onLogin = async () => {
+  try{
+    const baseUrl = import.meta.env.VITE_SERVER_URL;
+    const url = `${baseUrl}/api/v1/auth/login`
+    const response = await axios.post(url,{
+      id : id.value,
+      password: password.value,
+    })
+    const {accessToken, refreshToken} = response.data.data;
+
+    localStorage.setItem("accessToken",accessToken);
+    localStorage.setItem("refreshToken",refreshToken);
+
+    alert("로그인됬어잉")
+    emit("login-success");
+    emit("close");
+  }catch(error){
+    console.log(error);
+    alert("아이디, 비밀번호를 확인해줘잉")
+  }
 };
-*/
+
 </script>
 
 <style scoped>

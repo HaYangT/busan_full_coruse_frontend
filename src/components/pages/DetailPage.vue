@@ -14,14 +14,19 @@
         </svg>
       </button>
     </div>
-    
+        <div class = "submenu-bar">
+        <SubMenuBar/>
+      </div>    
     <div class="detail-content">
-       </div>
+      <Review
+      />
+    </div>
   </div>
 </template>
 <script setup>
 import ToggleButton from './ToggleButton.vue'; 
-
+import SubMenuBar from './SubMenuBar.vue';
+import Review from './Review.vue';
 defineProps({
   item: { type: Object, required: true }
 });

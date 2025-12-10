@@ -1,8 +1,11 @@
 <template>
   <div class="main-layout">
     <button class="main-login-button" @click="isLoginPageVisible = true"
-      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
+      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible &&!isLoggedIn ">
       로그인
+    </button >
+    <button class="main-login-button" v-show = "isLoggedIn" @click = "handleLogout">
+      로그아웃
     </button>
 
     <MenuBar class="sidebar"></MenuBar>
@@ -10,21 +13,34 @@
     <div class="content-area">
       <div class="app-container">
         <h1>카카오맵 연동 테스트</h1>
-        <KakaoMap />
+        <KakaoMap 
+        @update-center = "handleCenterUpdate"
+        @update-places = "handlePlacesUpdate"
+        />
       </div>
     </div>
 
     <ToggleButton v-if="!isMenuPageVisible" :is-open="false" @click="isMenuPageVisible = true"
       class="app-toggle-button" />
 
-    <MenuPage v-if="isMenuPageVisible" :is-menu-page-visible="isMenuPageVisible" @toggle-menu-page="handleToggleMenu" />
+    <MenuPage v-if="isMenuPageVisible" 
+    :is-menu-page-visible="isMenuPageVisible"
+     @toggle-menu-page="handleToggleMenu"
+     :places ="currentPlaces"
+     :center-info="centerInfo"
+     />
     <LoginPage v-if="isLoginPageVisible" @close="isLoginPageVisible = false" @open-register="
       isLoginPageVisible = false;
     isRegistPageVisible = true;
     " @open-resetpassword="
       isLoginPageVisible = false;
     isResetPasswordVisible = true;
-    " />
+    "
+    @login-success = "
+    isLoginPageVisible = false;
+    isLoggedIn = true;
+    "
+     />
     <RegistPage v-if="isRegistPageVisible" @close="isRegistPageVisible = false" @open-login="
       isRegistPageVisible = false;
     isLoginPageVisible = true;
@@ -50,10 +66,26 @@ const isMenuPageVisible = ref(false);
 const isLoginPageVisible = ref(false);
 const isRegistPageVisible = ref(false);
 const isResetPasswordVisible = ref(false);
+const isLoggedIn = ref(false);
+
+const currentPlaces = ref([]);
+const centerInfo = ref({});
+
 const handleToggleMenu = () => {
   isMenuPageVisible.value = !isMenuPageVisible.value;
 };
 // test
+const handlePlacesUpdate = (newPlaces)=>{
+  currentPlaces.value = newPlaces;
+}
+const handleCenterUpdate = (info)=>{
+  centerInfo.value= info;
+}
+const handleLogout = () =>{
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  isLoggedIn = false;
+}
 </script>
 
 <style>
