@@ -11,3 +11,5 @@ app.use(createPinia(VITE_KAKAO_API_KEY))
 app.use(router)
 
 app.mount('#app')
+
+
