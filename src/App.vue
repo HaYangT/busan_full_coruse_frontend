@@ -1,8 +1,11 @@
 <template>
   <div class="main-layout">
     <button class="main-login-button" @click="isLoginPageVisible = true"
-      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
+      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible &&!isLoggedIn ">
       로그인
+    </button >
+    <button class="main-login-button" v-show = "isLoggedIn" @click = "handleLogout">
+      로그아웃
     </button>
 
     <MenuBar class="sidebar"></MenuBar>
@@ -32,7 +35,12 @@
     " @open-resetpassword="
       isLoginPageVisible = false;
     isResetPasswordVisible = true;
-    " />
+    "
+    @login-success = "
+    isLoginPageVisible = false;
+    isLoggedIn = true;
+    "
+     />
     <RegistPage v-if="isRegistPageVisible" @close="isRegistPageVisible = false" @open-login="
       isRegistPageVisible = false;
     isLoginPageVisible = true;
@@ -58,6 +66,7 @@ const isMenuPageVisible = ref(false);
 const isLoginPageVisible = ref(false);
 const isRegistPageVisible = ref(false);
 const isResetPasswordVisible = ref(false);
+const isLoggedIn = ref(false);
 
 const currentPlaces = ref([]);
 const centerInfo = ref({});
@@ -71,7 +80,11 @@ const handlePlacesUpdate = (newPlaces)=>{
 const handleCenterUpdate = (info)=>{
   centerInfo.value= info;
 }
-
+const handleLogout = () =>{
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  isLoggedIn = false;
+}
 </script>
 
 <style>

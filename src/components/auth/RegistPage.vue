@@ -54,11 +54,15 @@ const password = ref("");
 const email = ref("");
 const nickname = ref("");
 
-/*
-const onRegist = async () => {
 
+const onRegist = async () => {
+  try{
+
+  }catch(error){
+    console.log(error);
+  }
 };
-*/
+
 </script>
 
 <style scoped>
