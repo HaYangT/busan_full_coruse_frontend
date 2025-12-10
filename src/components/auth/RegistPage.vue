@@ -5,7 +5,7 @@
 
       <form class="regist-form" @submit.prevent="onRegist">
 
-        <input type="text" v-model="id" placeholder="아이디" required />
+        <input type="text" v-model="id" placeholder="아이디" required /> <button>중복체크</button>
 
         <input type="email" v-model="email" placeholder="이메일" required />
 
