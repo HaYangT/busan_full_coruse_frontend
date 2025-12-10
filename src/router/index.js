@@ -1,12 +1,18 @@
+import App from '@/App.vue'
 import LoginPage from '@/components/auth/LoginPage.vue'
 import RegistPage from '@/components/auth/RegistPage.vue'
 import ResetPassword from '@/components/auth/ResetPassword.vue'
 import Review from '@/components/pages/Review.vue'
+
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
+  routes: [{
+    path: '/',
+    name: 'App',
+    component: App
+  },
   {
     path: "/pages/review/:id",
     name: 'Review',
