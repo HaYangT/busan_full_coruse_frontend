@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
+  <div class="modal-overlay">
     <div class="modal-box">
       <h2>로그인</h2>
 
@@ -39,7 +39,7 @@ const password = ref("");
 const onLogin = async () => {
   try{
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `$url/api/v1/auth/login`
+    const url = `${baseUrl}/api/v1/auth/login`
     const response = await axios.post(url,{
       id : id.value,
       password: password.value,
