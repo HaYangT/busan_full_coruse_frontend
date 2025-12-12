@@ -93,14 +93,7 @@ const displayMarkers = (placeList) => {
         });
     }
 };
-const MOCK_PLACES = [
-  {id:123, name: '제주도청', x: 126.514457, y: 33.486242 },
-  {id:456, name: '제주공항', x: 126.493051, y: 33.507041 },
-  {id:789, name: '한라산', x: 126.533281, y: 33.361665 },
-];
   const fetchPlaces = async(lat,lng) => {
-
-    /* 테스트용 후에 주석 제어해야함
     try{
       const baseUrl = import.meta.env.VITE_SERVER_URL;
       const url = `${baseUrl}/api/v1/place/getPlaces`
@@ -119,18 +112,7 @@ const MOCK_PLACES = [
     }    catch(error){
       console.error("에러발생", error);
     }
-    */
-    console.log(`Mock: 중심 좌표 (Lat: ${lat}, Lng: ${lng})에서 반경 ${dist.value}Km로 장소 검색 시뮬레이션`);
-    const mockResponse = MOCK_PLACES.map(place => ({
-        ...place,
-        y: lat + (place.y - DEFAULT_COORDS.LAT) * (dist.value / 10), 
-        x: lng + (place.x - DEFAULT_COORDS.LNG) * (dist.value / 10),
-    }));
-
-    emit('update-places', mockResponse);
-    emit('update-center', {lat: lat, lng : lng, dist: dist.value});
-    places.value = mockResponse;
-    displayMarkers(places.value);
+    
   }
 
   const handleDistChange = () =>{

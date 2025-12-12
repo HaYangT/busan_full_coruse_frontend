@@ -6,7 +6,7 @@
       <form class="login-form" @submit.prevent="onLogin">
         <input
           type="text"
-          v-model="id"
+          v-model="userId"
           placeholder="아이디"
           required
         />
@@ -32,7 +32,7 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const id = ref("");
+const userId = ref("");
 const password = ref("");
 
 
@@ -41,7 +41,7 @@ const onLogin = async () => {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
     const url = `${baseUrl}/api/v1/auth/login`
     const response = await axios.post(url,{
-      id : id.value,
+      userId : userId.value,
       password: password.value,
     })
     const {accessToken, refreshToken} = response.data.data;

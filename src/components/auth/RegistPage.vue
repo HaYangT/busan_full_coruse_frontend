@@ -5,7 +5,7 @@
 
       <form class="regist-form" @submit.prevent="onRegist">
 
-        <input type="text" v-model="id" placeholder="아이디" required /> <button>중복체크</button>
+        <input type="text" v-model="userId" placeholder="아이디" required /> <button>중복체크</button>
 
         <input type="email" v-model="email" placeholder="이메일" required />
 
@@ -34,7 +34,7 @@ import axios from "axios";
 
 const emit = defineEmits(["open-login"]);
 
-const id = ref("");
+const userId = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const email = ref("");
@@ -62,10 +62,10 @@ const onRegist = async () => {
 
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `${baseUrl}/api/v1/auth/register`;
+    const url = `${baseUrl}/api/v1/auth/regist`;
 
     await axios.post(url, {
-      id: id.value,
+      userId: userId.value,
       password: password.value,
       email: email.value,
       nickname: nickname.value,
