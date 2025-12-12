@@ -2,16 +2,16 @@
   <div class="review-page-container">
     <div class="review-header">
       <h2>리뷰 작성</h2>
-      <button class="close-btn" @click="$emit('close')">닫기</button> 
+      <button v-if="false" class="close-btn" @click="$emit('close')">닫기</button> 
     </div>
 
     <div class="review-content-area">
       <form class="review-form" @submit.prevent="onSubmitReview">
         
         <div class="item-info">
-          리뷰 대상: <strong>{{ props.item?.name || '정보 없음' }}</strong> (ID: {{ props.item?.id || 0 }})
+          <strong>{{ item?.name }} 리뷰 작성</strong>
         </div>
-        
+        <div class ="user-info">작성자 : {{ userInfo?.nickname || '알 수 없음' }}</div>
         <div class="rating-container">
           <label class="rating-label">별점</label>
           <div class="stars">
@@ -66,29 +66,30 @@ import axios from "axios";
 import { ref, onUnmounted } from "vue";
 
 const props = defineProps({
-  item: Object
+  item: {
+    type: Object,
+    required: true
+  }
 });
 
 const emit = defineEmits(['close', 'review-success']);
+const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
 
 const rating = ref(5); 
 const content = ref("");
-
 const selectedFiles = ref([]);
 const previewImages = ref([]);  
 
 const handleFileChange = (event) => {
   const files = Array.from(event.target.files);
   if (!files.length) return;
-
   selectedFiles.value = [...selectedFiles.value, ...files];
-
   const newPreviews = files.map(file => ({
     url: URL.createObjectURL(file),
     file: file
   }));
   previewImages.value = [...previewImages.value, ...newPreviews];
-
   event.target.value = '';
 };
 
@@ -98,49 +99,57 @@ const removeImage = (index) => {
   selectedFiles.value.splice(index, 1);
 };
 
-
 onUnmounted(() => {
   previewImages.value.forEach(img => URL.revokeObjectURL(img.url));
 });
 
 const onSubmitReview = async () => {
+  if (!props.item || !props.item.id) {
+    alert("리뷰 대상 정보가 없습니다.");
+    return;
+  }
+
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
     const url = `${baseUrl}/api/v1/review`; 
 
     const formData = new FormData();
 
-    formData.append("user_id", "guest_user");
+    formData.append("userId", "guest_user"); 
     formData.append("rating", rating.value);
     formData.append("content", content.value);
-    formData.append("created_at", new Date().toISOString());
-    formData.append("target_type", "PRODUCT");
-    formData.append("target_id", props.item?.id || 0);
+    
+    formData.append("targetType", props.item.tagType || "PLACE"); 
+    formData.append("targetId", props.item.id);
 
     selectedFiles.value.forEach((file) => {
       formData.append("images", file); 
     });
 
-    console.log("리뷰 데이터 전송 시도 (FormData)");
+    console.log(`[전송] TargetId: ${props.item.id}, Type: ${props.item.tagType}`);
+
     const response = await axios.post(url, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+      headers: { 'Content-Type': 'multipart/form-data' }
     });
 
-    console.log("서버 응답 성공:", response.data);
-    alert("리뷰와 사진이 성공적으로 등록되었어요!");
-    
+    console.log("성공:", response.data);
+    alert("리뷰가 등록되었습니다!");
+
+    content.value = "";
+    rating.value = 5;
+    selectedFiles.value = [];
+    previewImages.value = [];
+
     emit("review-success");
     emit("close");
 
   } catch (error) {
-    console.error("리뷰 등록 실패:", error.response || error);
-    alert("리뷰 등록에 실패했어요. 서버 상태를 확인해 주세요.");
+    console.error("에러:", error);
+    alert("리뷰 등록 실패");
   }
 };
 </script>
 
 <style scoped>
-@import '/src/styles/Review.css'
+@import '/src/styles/Review.css';
 </style>

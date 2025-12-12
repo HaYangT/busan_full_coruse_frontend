@@ -1,7 +1,7 @@
 <template>
   <div class="detail-page-container">
     
-   <ToggleButton 
+    <ToggleButton 
       :is-open="true" 
       @click="$emit('toggle-all')" 
     />
@@ -14,24 +14,39 @@
         </svg>
       </button>
     </div>
-        <div class = "submenu-bar">
-        <SubMenuBar/>
-      </div>    
+    
+    <div class="submenu-bar">
+      <SubMenuBar/>
+    </div>    
+    
     <div class="detail-content">
       <Review
+        :item="item" 
+        @close="handleReviewClose"
+        @review-success="handleReviewSuccess"
       />
     </div>
   </div>
 </template>
+
 <script setup>
 import ToggleButton from './ToggleButton.vue'; 
 import SubMenuBar from './SubMenuBar.vue';
 import Review from './Review.vue';
-defineProps({
+
+const props = defineProps({
   item: { type: Object, required: true }
 });
 
-defineEmits(['close', 'toggle-all']);
+const emit = defineEmits(['close', 'toggle-all']);
+
+const handleReviewClose = () => {
+  console.log('리뷰 창 닫기 요청됨');
+};
+
+const handleReviewSuccess = () => {
+  console.log('리뷰 등록 성공, 목록 갱신 등이 필요하면 여기서 처리');
+};
 </script>
 
 <style scoped>

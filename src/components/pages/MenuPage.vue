@@ -1,43 +1,30 @@
 <template>
   <div class="menu-page-container">
-    <ToggleButton 
-      v-if="!selectedItem" 
-      :is-open="isMenuPageVisible" 
-      @click="$emit('toggle-menu-page')" 
-    />
+    <ToggleButton v-if="!selectedItem" :is-open="isMenuPageVisible" @click="$emit('toggle-menu-page')" />
 
     <div class="menu-page-header">
       <h2>페이지 상세 정보</h2>
-      </div>
-    
+    </div>
+
     <div class="image-container">
       <img :src="imgUrl" class="custom-image" />
     </div>
 
     <div>
       <div class="list-scroll-wrapper">
-      <ul class="place-list">
-        <li 
-          v-for="item in places" 
-          :key="item.id" 
-          @click="openDetail(item)"
-          class="list-item"
-          :class="{ active: selectedItem?.id === item.id }" 
-        >
-          {{ item.name }}
-        </li>
-      </ul>
+        <ul class="place-list" v-if="places.length > 0">
+          <li v-for="item in places" :key="item.id" @click="openDetail(item)" class="list-item"
+            :class="{ active: selectedItem?.id === item.id }">
+            {{ item.name }}
+          </li>
+        </ul>
+        <EmptyMessage v-else />
       </div>
     </div>
   </div>
 
   <Transition name="slide-fade">
-    <DetailPage 
-      v-if="selectedItem" 
-      :item="selectedItem" 
-      @close="closeDetail"
-      @toggle-all="$emit('toggle-menu-page')"
-    />
+    <DetailPage v-if="selectedItem" :item="selectedItem" @close="closeDetail" @toggle-all="$emit('toggle-menu-page')" />
   </Transition>
 </template>
 
@@ -45,6 +32,7 @@
 import { onMounted, ref } from 'vue';
 import DetailPage from './DetailPage.vue';
 import ToggleButton from './ToggleButton.vue';
+import EmptyMessage from './EmptyMessage.vue';
 const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
 const isLoading = ref(false);
 const selectedItem = ref(null);
@@ -52,11 +40,12 @@ const selectedItem = ref(null);
 
 
 const openDetail = (item) => {
-  selectedItem.value = item; 
+  selectedItem.value = item;
+  console.log(selectedItem.value)
 };
 
 const closeDetail = () => {
-  selectedItem.value = null; 
+  selectedItem.value = null;
 };
 const props = defineProps({
   isMenuPageVisible: { type: Boolean, default: false },

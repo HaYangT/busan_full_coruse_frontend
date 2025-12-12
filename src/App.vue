@@ -1,12 +1,14 @@
 <template>
   <div class="main-layout">
-    <button class="main-login-button" @click="isLoginPageVisible = true"
-      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible &&!isLoggedIn ">
-      로그인
-    </button >
-    <button class="main-login-button" v-show = "isLoggedIn" @click = "handleLogout">
-      로그아웃
-    </button>
+   <button class="main-login-button" @click="openLoginPage"
+  v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible && !isLoggedIn">
+  로그인
+</button>
+
+<button class="main-login-button" v-show="isLoggedIn" @click="handleLogout">
+  로그아웃
+</button>
+
 
     <MenuBar class="sidebar"></MenuBar>
 
@@ -29,18 +31,13 @@
      :places ="currentPlaces"
      :center-info="centerInfo"
      />
-    <LoginPage v-if="isLoginPageVisible" @close="isLoginPageVisible = false" @open-register="
-      isLoginPageVisible = false;
-    isRegistPageVisible = true;
-    " @open-resetpassword="
-      isLoginPageVisible = false;
-    isResetPasswordVisible = true;
-    "
-    @login-success = "
-    isLoginPageVisible = false;
-    isLoggedIn = true;
-    "
-     />
+    <LoginPage 
+  v-if="isLoginPageVisible" 
+  @close="closeLoginPage" 
+  @open-register="openRegisterPage"
+  @open-resetpassword="openResetPasswordPage"
+  @login-success="handleLoginSuccess"
+/>
     <RegistPage v-if="isRegistPageVisible" @close="isRegistPageVisible = false" @open-login="
       isRegistPageVisible = false;
     isLoginPageVisible = true;
@@ -70,11 +67,34 @@ const isLoggedIn = ref(false);
 
 const currentPlaces = ref([]);
 const centerInfo = ref({});
+const openLoginPage = () => {
+  isLoginPageVisible.value = true;
+};
 
+const closeLoginPage = () => {
+  isLoginPageVisible.value = false;
+};
+
+const openRegisterPage = () => {
+  isLoginPageVisible.value = false;
+  isRegistPageVisible.value = true;
+};
+
+const openResetPasswordPage = () => {
+  isLoginPageVisible.value = false;
+  isResetPasswordVisible.value = true;
+};
+
+const handleLoginSuccess = () => {
+  isLoginPageVisible.value = false;
+  isLoggedIn.value = true;
+};
+if (localStorage.getItem('accessToken')) {
+  isLoggedIn.value = true;
+}
 const handleToggleMenu = () => {
   isMenuPageVisible.value = !isMenuPageVisible.value;
 };
-// test
 const handlePlacesUpdate = (newPlaces)=>{
   currentPlaces.value = newPlaces;
 }
@@ -84,7 +104,8 @@ const handleCenterUpdate = (info)=>{
 const handleLogout = () =>{
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
-  isLoggedIn = false;
+  isLoggedIn.value = false;
+  location.reload();
 }
 </script>
 

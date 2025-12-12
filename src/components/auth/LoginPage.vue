@@ -31,10 +31,11 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
+import { jwtDecode } from "jwt-decode";
 
 const userId = ref("");
 const password = ref("");
-
+const emit = defineEmits(["login-success", "close"]);
 
 const onLogin = async () => {
   try{
@@ -44,11 +45,19 @@ const onLogin = async () => {
       userId : userId.value,
       password: password.value,
     })
-    const {accessToken, refreshToken} = response.data.data;
-
+    const { accessToken, refreshToken } = response.data;
+    console.log(response.data);
     localStorage.setItem("accessToken",accessToken);
     localStorage.setItem("refreshToken",refreshToken);
-
+    const decodedToken =jwtDecode(accessToken);
+    const userIdentifier = decodedToken.userId || decodedToken.sub;
+    const userNickname = decodedToken.nickname || decodedToken.sub;
+    console.log(userNickname);
+    const userInfo = {
+      id : userIdentifier,
+      nickname : userNickname
+    }
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
     alert("로그인됬어잉")
     emit("login-success");
     emit("close");
