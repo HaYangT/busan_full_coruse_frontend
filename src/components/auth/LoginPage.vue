@@ -50,12 +50,14 @@ const onLogin = async () => {
     localStorage.setItem("accessToken",accessToken);
     localStorage.setItem("refreshToken",refreshToken);
     const decodedToken =jwtDecode(accessToken);
-    const userIdentifier = decodedToken.userId || decodedToken.sub;
+    const userIdentifier = decodedToken.user_id || decodedToken.sub;
     const userNickname = decodedToken.nickname || decodedToken.sub;
+    const userNum = decodedToken.id || decodedToken.sub;
     console.log(userNickname);
     const userInfo = {
-      id : userIdentifier,
-      nickname : userNickname
+      userId : userIdentifier,
+      nickname : userNickname,
+      id : userNum,
     }
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
     alert("로그인됬어잉")

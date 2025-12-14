@@ -2,26 +2,20 @@
   <div class="review-page-container">
     <div class="review-header">
       <h2>리뷰 작성</h2>
-      <button v-if="false" class="close-btn" @click="$emit('close')">닫기</button> 
+      <button v-if="false" class="close-btn" @click="$emit('close')">닫기</button>
     </div>
 
     <div class="review-content-area">
       <form class="review-form" @submit.prevent="onSubmitReview">
-        
+
         <div class="item-info">
           <strong>{{ item?.name }} 리뷰 작성</strong>
         </div>
-        <div class ="user-info">작성자 : {{ userInfo?.nickname || '알 수 없음' }}</div>
+        <div class="user-info">작성자 : {{ userInfo?.nickname || '알 수 없음' }}</div>
         <div class="rating-container">
           <label class="rating-label">별점</label>
           <div class="stars">
-            <span 
-              v-for="star in 5" 
-              :key="star" 
-              class="star"
-              :class="{ active: star <= rating }"
-              @click="rating = star"
-            >
+            <span v-for="star in 5" :key="star" class="star" :class="{ active: star <= rating }" @click="rating = star">
               ★
             </span>
           </div>
@@ -31,15 +25,9 @@
         <div class="image-upload-container">
           <label class="upload-btn-label">
             📷 사진 추가하기
-            <input 
-              type="file" 
-              multiple 
-              accept="image/*" 
-              @change="handleFileChange" 
-              class="hidden-input"
-            />
+            <input type="file" multiple accept="image/*" @change="handleFileChange" class="hidden-input" />
           </label>
-          
+
           <div v-if="previewImages.length > 0" class="preview-list">
             <div v-for="(image, index) in previewImages" :key="index" class="preview-item">
               <img :src="image.url" alt="review-img" />
@@ -48,12 +36,7 @@
           </div>
         </div>
 
-        <textarea
-          v-model="content"
-          placeholder="솔직한 리뷰 내용을 입력해주세요."
-          class="review-textarea"
-          required
-        ></textarea>
+        <textarea v-model="content" placeholder="솔직한 리뷰 내용을 입력해주세요." class="review-textarea" required></textarea>
 
         <button type="submit" class="submit-button">리뷰 등록 완료</button>
       </form>
@@ -76,10 +59,10 @@ const emit = defineEmits(['close', 'review-success']);
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 
-const rating = ref(5); 
+const rating = ref(5);
 const content = ref("");
 const selectedFiles = ref([]);
-const previewImages = ref([]);  
+const previewImages = ref([]);
 
 const handleFileChange = (event) => {
   const files = Array.from(event.target.files);
@@ -102,6 +85,7 @@ const removeImage = (index) => {
 onUnmounted(() => {
   previewImages.value.forEach(img => URL.revokeObjectURL(img.url));
 });
+const token = localStorage.getItem("accessToken");
 
 const onSubmitReview = async () => {
   if (!props.item || !props.item.id) {
@@ -111,25 +95,25 @@ const onSubmitReview = async () => {
 
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `${baseUrl}/api/v1/review`; 
+    const url = `${baseUrl}/api/v1/review`;
 
     const formData = new FormData();
-
-    formData.append("userId", "guest_user"); 
     formData.append("rating", rating.value);
     formData.append("content", content.value);
-    
-    formData.append("targetType", props.item.tagType || "PLACE"); 
+    formData.append("targetType", props.item.tagType || "PLACE");
     formData.append("targetId", props.item.id);
 
     selectedFiles.value.forEach((file) => {
-      formData.append("images", file); 
+      formData.append("images", file);
     });
 
     console.log(`[전송] TargetId: ${props.item.id}, Type: ${props.item.tagType}`);
 
     const response = await axios.post(url, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
     });
 
     console.log("성공:", response.data);
