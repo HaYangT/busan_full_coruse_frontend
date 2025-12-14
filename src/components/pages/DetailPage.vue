@@ -5,7 +5,7 @@
       :is-open="true" 
       @click="$emit('toggle-all')" 
     />
-
+    
     <div class="detail-header">
       <h3>{{ item.name }} 상세 정보</h3>
       <button @click="$emit('close')" class="close-btn">
@@ -14,7 +14,9 @@
         </svg>
       </button>
     </div>
-    
+    <div>
+      <button class = "add-to-my-tour-button"> 내 여정에 추가 </button>
+    </div>
     <div class="submenu-bar">
       <SubMenuBar/>
     </div>    
