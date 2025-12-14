@@ -52,12 +52,12 @@ const onLogin = async () => {
     const decodedToken =jwtDecode(accessToken);
     const userIdentifier = decodedToken.user_id || decodedToken.sub;
     const userNickname = decodedToken.nickname || decodedToken.sub;
-    const userNum = decodedToken.id || decodedToken.sub;
+    const userEmail = decodedToken.email || decodedToken.sub;
     console.log(userNickname);
     const userInfo = {
       userId : userIdentifier,
       nickname : userNickname,
-      id : userNum,
+      email : userEmail,
     }
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
     alert("로그인됬어잉")

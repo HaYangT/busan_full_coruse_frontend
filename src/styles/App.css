@@ -54,3 +54,17 @@ html, body {
   cursor: pointer;
   z-index: 2000;
 }
+
+.my-page-button{
+  position: fixed;
+  top: 20px;
+  right: 110px;
+  padding: 10px 16px;
+  background: #4a90e2;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2000;
+}
