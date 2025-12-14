@@ -100,7 +100,7 @@ import ToggleButton from '@/components/pages/ToggleButton.vue';
 import LoginPage from '@/components/auth/LoginPage.vue';
 import RegistPage from '@/components/auth/RegistPage.vue';
 import ResetPassword from '@/components/auth/ResetPassword.vue';
-import MyPage from '@/components/pages/MyPage.vue';
+import MyPage from '@/components/auth/MyPage.vue';
 
 /* ================= 상태 ================= */
 
