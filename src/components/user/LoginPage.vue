@@ -31,35 +31,23 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-import { jwtDecode } from "jwt-decode";
-
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 const userId = ref("");
 const password = ref("");
 const emit = defineEmits(["login-success", "close"]);
 
 const onLogin = async () => {
   try{
-    const baseUrl = import.meta.env.VITE_SERVER_URL;
     const url = `${baseUrl}/api/v1/auth/login`
     const response = await axios.post(url,{
       userId : userId.value,
       password: password.value,
     })
-    const { accessToken, refreshToken } = response.data;
+    const { accessToken, refreshToken, user } = response.data;
     console.log(response.data);
     localStorage.setItem("accessToken",accessToken);
     localStorage.setItem("refreshToken",refreshToken);
-    const decodedToken =jwtDecode(accessToken);
-    const userIdentifier = decodedToken.user_id || decodedToken.sub;
-    const userNickname = decodedToken.nickname || decodedToken.sub;
-    const userEmail = decodedToken.email || decodedToken.sub;
-    console.log(userNickname);
-    const userInfo = {
-      userId : userIdentifier,
-      nickname : userNickname,
-      email : userEmail,
-    }
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    localStorage.setItem("userInfo", JSON.stringify(user));
     alert("로그인됬어잉")
     emit("login-success");
     emit("close");

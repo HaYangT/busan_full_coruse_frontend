@@ -97,10 +97,10 @@ import MenuBar from '@/components/pages/MenuBar.vue';
 import MenuPage from '@/components/pages/MenuPage.vue';
 import ToggleButton from '@/components/pages/ToggleButton.vue';
 
-import LoginPage from '@/components/auth/LoginPage.vue';
-import RegistPage from '@/components/auth/RegistPage.vue';
-import ResetPassword from '@/components/auth/ResetPassword.vue';
-import MyPage from '@/components/auth/MyPage.vue';
+import LoginPage from '@/components/user/LoginPage.vue';
+import RegistPage from '@/components/user/RegistPage.vue';
+import ResetPassword from '@/components/user/ResetPassword.vue';
+import MyPage from '@/components/user/MyPage.vue';
 
 /* ================= 상태 ================= */
 
@@ -156,6 +156,7 @@ if (localStorage.getItem('accessToken')) {
 const handleLogout = () => {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
+  localStorage.removeItem('userInfo');
   isLoggedIn.value = false;
   location.reload();
 };

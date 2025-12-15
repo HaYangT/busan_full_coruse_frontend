@@ -41,7 +41,6 @@ const selectedItem = ref(null);
 
 const openDetail = (item) => {
   selectedItem.value = item;
-  console.log(selectedItem.value)
 };
 
 const closeDetail = () => {
