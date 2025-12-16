@@ -2,7 +2,7 @@ import App from '@/App.vue'
 import LoginPage from '@/components/user/LoginPage.vue'
 import RegistPage from '@/components/user/RegistPage.vue'
 import ResetPassword from '@/components/user/ResetPassword.vue'
-import Review from '@/components/pages/Review.vue'
+import Review from '@/components/pages/review/Review.vue'
 
 import { createRouter, createWebHistory } from 'vue-router'
 

@@ -32,9 +32,9 @@
 </template>
 
 <script setup>
-import ToggleButton from './ToggleButton.vue'; 
-import SubMenuBar from './SubMenuBar.vue';
-import Review from './Review.vue';
+import ToggleButton from '@/components/pages/menu/ToggleButton.vue'; 
+import SubMenuBar from '@/components/pages/menu/SubMenuBar.vue';
+import Review from '@/components/pages/review/Review.vue';
 
 const props = defineProps({
   item: { type: Object, required: true }

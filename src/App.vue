@@ -93,9 +93,9 @@
 import { ref } from 'vue';
 
 import KakaoMap from '@/components/kakaomap/Map.vue';
-import MenuBar from '@/components/pages/MenuBar.vue';
-import MenuPage from '@/components/pages/MenuPage.vue';
-import ToggleButton from '@/components/pages/ToggleButton.vue';
+import MenuBar from '@/components/pages/menu/MenuBar.vue';
+import MenuPage from '@/components/pages/menu/MenuPage.vue';
+import ToggleButton from '@/components/pages/menu/ToggleButton.vue';
 
 import LoginPage from '@/components/user/LoginPage.vue';
 import RegistPage from '@/components/user/RegistPage.vue';

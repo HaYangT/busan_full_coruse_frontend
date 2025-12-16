@@ -32,7 +32,7 @@
 import { onMounted, ref } from 'vue';
 import DetailPage from './DetailPage.vue';
 import ToggleButton from './ToggleButton.vue';
-import EmptyMessage from './EmptyMessage.vue';
+import EmptyMessage from './menu/EmptyMessage.vue';
 const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
 const isLoading = ref(false);
 const selectedItem = ref(null);
