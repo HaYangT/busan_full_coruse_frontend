@@ -45,18 +45,18 @@
           <div class="review-date">
             {{ formatDate(review.createdAt) }}
           </div>
- <div v-if="isMyReview(review)" class="review-actions">
-          <button class="edit-btn" @click="toggleEdit(review.id)">
-            {{ editingReviewId === review.id ? "수정 취소" : "수정" }}
-          </button>
+          <div v-if="isMyReview(review)" class="review-actions">
+            <button class="edit-btn" @click="toggleEdit(review.id)">
+              {{ editingReviewId === review.id ? "수정 취소" : "수정" }}
+            </button>
 
-          <button class="delete-btn" @click="deleteReview(review.id)">
-            삭제
-          </button>
-        </div>
+            <button class="delete-btn" @click="deleteReview(review.id)">
+              삭제
+            </button>
+          </div>
         </div>
 
-       
+
         <!-- 🔽 수정 폼 -->
         <UpdateReview v-if="editingReviewId === review.id" :review="review" @updated="onUpdated"
           @cancel="editingReviewId = null" />
@@ -191,6 +191,7 @@ defineExpose({ fetchReviews });
   border-radius: 6px;
   cursor: pointer;
 }
+
 .review-actions {
   display: flex;
   gap: 8px;
