@@ -6,6 +6,7 @@ import LoginPage from '@/components/user/LoginPage.vue'
 import RegistPage from '@/components/user/RegistPage.vue'
 import ResetPassword from '@/components/user/ResetPassword.vue'
 import MyPage from '@/components/user/MyPage.vue'
+import PasswordConfirm from '@/components/user/PasswordConfirm.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +41,12 @@ const router = createRouter({
       name: 'MyPage',
       component: MyPage,
       meta: { requiresAuth: true }
-    }
+    },
+    {
+      path: '/reset-password-confirm',
+      name: 'PasswordConfirm',
+      component: PasswordConfirm
+    },
   ]
 })
 
