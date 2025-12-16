@@ -14,11 +14,7 @@
 
     <!-- 리스트 -->
     <div v-else class="review-list">
-      <div
-        v-for="review in reviews"
-        :key="review.id"
-        class="review-block"
-      >
+      <div v-for="review in reviews" :key="review.id" class="review-block">
         <!-- 리뷰 카드 -->
         <div class="review-item">
           <!-- 작성자 -->
@@ -28,11 +24,7 @@
 
           <!-- 별점 -->
           <div class="review-rating">
-            <span
-              v-for="n in 5"
-              :key="n"
-              :class="{ active: n <= review.rating }"
-            >
+            <span v-for="n in 5" :key="n" :class="{ active: n <= review.rating }">
               ★
             </span>
             <span class="rating-score">{{ review.rating }}</span>
@@ -44,41 +36,30 @@
           </div>
 
           <!-- 이미지 (썸네일) -->
-          <div
-            v-if="review.pictures && review.pictures.length"
-            class="review-images"
-          >
-            <img
-              v-for="img in review.pictures"
-              :key="img.id"
-              :src="`${baseUrl}/upload/${img.picturePath}`"
-              class="review-thumb"
-              @click="openImage(img.picturePath)"
-            />
+          <div v-if="review.pictures && review.pictures.length" class="review-images">
+            <img v-for="img in review.pictures" :key="img.id" :src="`${baseUrl}/upload/${img.picturePath}`"
+              class="review-thumb" @click="openImage(img.picturePath)" />
           </div>
 
           <!-- 날짜 -->
           <div class="review-date">
             {{ formatDate(review.createdAt) }}
           </div>
-
-          <!-- 내 리뷰만 -->
-          <button
-            v-if="isMyReview(review)"
-            class="edit-btn"
-            @click="toggleEdit(review.id)"
-          >
+ <div v-if="isMyReview(review)" class="review-actions">
+          <button class="edit-btn" @click="toggleEdit(review.id)">
             {{ editingReviewId === review.id ? "수정 취소" : "수정" }}
           </button>
+
+          <button class="delete-btn" @click="deleteReview(review.id)">
+            삭제
+          </button>
+        </div>
         </div>
 
+       
         <!-- 🔽 수정 폼 -->
-        <UpdateReview
-          v-if="editingReviewId === review.id"
-          :review="review"
-          @updated="onUpdated"
-          @cancel="editingReviewId = null"
-        />
+        <UpdateReview v-if="editingReviewId === review.id" :review="review" @updated="onUpdated"
+          @cancel="editingReviewId = null" />
       </div>
     </div>
   </div>
@@ -88,7 +69,7 @@
 import axios from "axios";
 import { ref, watch, onMounted } from "vue";
 import UpdateReview from "@/components/pages/review/UpdateReview.vue";
-
+const token = localStorage.getItem("accessToken");
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -159,6 +140,38 @@ watch(
   { immediate: true }
 );
 
+/*리뷰 삭제 */
+const deleteReview = async (reviewId) => {
+  if (!confirm("리뷰를 삭제하시겠습니까?")) return;
+
+  try {
+    await axios.delete(
+      `${baseUrl}/api/v1/review/${reviewId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    // 즉시 UI 반영
+    reviews.value = reviews.value.filter(r => r.id !== reviewId);
+
+    // 수정 중이던 리뷰라면 닫기
+    if (editingReviewId.value === reviewId) {
+      editingReviewId.value = null;
+    }
+
+    alert("리뷰가 삭제되었습니다.");
+  } catch (e) {
+    console.error("리뷰 삭제 실패", e);
+    alert("리뷰 삭제 실패");
+  }
+};
+
+
+
+
 onMounted(fetchReviews);
 
 defineExpose({ fetchReviews });
@@ -177,5 +190,24 @@ defineExpose({ fetchReviews });
   object-fit: cover;
   border-radius: 6px;
   cursor: pointer;
+}
+.review-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.delete-btn {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background: #d9363e;
 }
 </style>

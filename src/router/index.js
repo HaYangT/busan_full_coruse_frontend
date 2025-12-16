@@ -5,6 +5,7 @@ import ResetPassword from '@/components/user/ResetPassword.vue'
 import Review from '@/components/pages/review/Review.vue'
 
 import { createRouter, createWebHistory } from 'vue-router'
+import MyPage from '@/components/user/MyPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
     path : "/resetpassword",
     name: 'ResetPassword',
     component : ResetPassword
+  },
+  {
+    path : "/myPage",
+    name: 'myPage',
+    component : MyPage
   }
 ],
 })
