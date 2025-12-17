@@ -7,6 +7,7 @@ import RegistPage from '@/components/user/RegistPage.vue'
 import ResetPassword from '@/components/user/ResetPassword.vue'
 import MyPage from '@/components/user/MyPage.vue'
 import PasswordConfirm from '@/components/user/PasswordConfirm.vue'
+import TravelDetailPage from '@/components/travel/TravelDetailPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +48,11 @@ const router = createRouter({
       name: 'PasswordConfirm',
       component: PasswordConfirm
     },
+    {
+      path: '/travel/:id',
+      name: 'TravelDetail',
+      component: TravelDetailPage
+    }
   ]
 })
 

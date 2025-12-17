@@ -46,10 +46,12 @@ import draggable from 'vuedraggable'
 import { useTravelPlanStore } from '@/stores/useTravelPlanStore'
 import axios from 'axios';
 
+
 const store = useTravelPlanStore();
 const localItems = ref([]);
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const showHint = ref(false)
+
 
 watch(
   () => store.plan.items,
@@ -88,7 +90,7 @@ const registerTrip = async () => {
     const token = localStorage.getItem('accessToken')
 
     const res = await axios.post(
-      `${baseUrl}/trip-plans`,
+      `${baseUrl}/travel`,
       payload,
       {
         headers: {

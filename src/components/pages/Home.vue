@@ -68,8 +68,8 @@ import RegistPage from '@/components/user/RegistPage.vue';
 import ResetPassword from '@/components/user/ResetPassword.vue';
 
 import { useTravelPlanStore } from '@/stores/useTravelPlanStore';
-import TravelButton from '../tour/TravelButton.vue';
-import MyTravelPanel from '../tour/MyTravelPanel.vue';
+import TravelButton from '../travel/TravelButton.vue';
+import MyTravelPanel from '../travel/MyTravelPanel.vue';
 
 /* ================= 상태 ================= */
 
