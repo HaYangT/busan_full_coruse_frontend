@@ -9,7 +9,7 @@ const app = createApp(App)
 useKakao()
 app.use(createPinia(VITE_KAKAO_API_KEY))
 app.use(router)
-
+app.use(createPinia())
 app.mount('#app')
 
 

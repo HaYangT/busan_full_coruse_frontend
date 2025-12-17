@@ -15,7 +15,7 @@
       </button>
     </div>
     <div>
-      <button class = "add-to-my-tour-button"> 내 여정에 추가 </button>
+      <button class = "add-to-my-tour-button" @click = "addToMyTour"> 내 여정에 추가 </button>
     </div>
     <div class="submenu-bar">
       <SubMenuBar/>
@@ -36,6 +36,10 @@ import ToggleButton from '@/components/pages/menu/ToggleButton.vue';
 import SubMenuBar from '@/components/pages/menu/SubMenuBar.vue';
 import Review from '@/components/pages/review/Review.vue';
 
+import { useTravelPlanStore } from '@/stores/useTravelPlanStore';
+
+const travelPlanStore = useTravelPlanStore();
+
 const props = defineProps({
   item: { type: Object, required: true }
 });
@@ -49,6 +53,11 @@ const handleReviewClose = () => {
 const handleReviewSuccess = () => {
   console.log('리뷰 등록 성공, 목록 갱신 등이 필요하면 여기서 처리');
 };
+
+const addToMyTour = () =>{
+  travelPlanStore.addPlace(props.item);
+}
+
 </script>
 
 <style scoped>

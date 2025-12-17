@@ -1,27 +1,17 @@
 <template>
   <div class="main-layout">
     <!-- 로그인 / 로그아웃 -->
-    <button
-      class="main-login-button"
+    <button class="main-login-button"
       v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible && !isLoggedIn"
-      @click="openLoginPage"
-    >
+      @click="openLoginPage">
       로그인
     </button>
 
-    <button
-      class="main-login-button"
-      v-show="isLoggedIn"
-      @click="handleLogout"
-    >
+    <button class="main-login-button" v-show="isLoggedIn" @click="handleLogout">
       로그아웃
     </button>
 
-    <button
-      class="my-page-button"
-      v-show="isLoggedIn"
-      @click="goMyPage"
-    >
+    <button class="my-page-button" v-show="isLoggedIn" @click="goMyPage">
       내정보
     </button>
 
@@ -32,60 +22,40 @@
     <div class="content-area">
       <div class="app-container">
         <h1>카카오맵 연동 테스트</h1>
-        <KakaoMap
-          @update-center="handleCenterUpdate"
-          @update-places="handlePlacesUpdate"
-        />
+        <KakaoMap @update-center="handleCenterUpdate" @update-places="handlePlacesUpdate" />
       </div>
     </div>
 
     <!-- 메뉴 토글 -->
-    <ToggleButton
-      v-if="!isMenuPageVisible"
-      :is-open="false"
-      class="app-toggle-button"
-      @click="isMenuPageVisible = true"
-    />
+    <ToggleButton v-if="!isMenuPageVisible" :is-open="false" class="app-toggle-button"
+      @click="isMenuPageVisible = true" />
 
     <!-- 메뉴 페이지 -->
-    <MenuPage
-      v-if="isMenuPageVisible"
-      :is-menu-page-visible="isMenuPageVisible"
-      :places="currentPlaces"
-      :center-info="centerInfo"
-      @toggle-menu-page="handleToggleMenu"
-    />
+    <MenuPage v-if="isMenuPageVisible" :is-menu-page-visible="isMenuPageVisible" :places="currentPlaces"
+      :center-info="centerInfo" @toggle-menu-page="handleToggleMenu" />
   </div>
+
+  <TravelButton v-show="isLoggedIn && !isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible" @click="toggleMyTravel" />
+
+  <MyTravelPanel v-if="isMyTravelVisible" @close="isMyTravelVisible = false" />
 
   <!-- ===================== -->
   <!-- 모달 영역 -->
   <!-- ===================== -->
 
   <Teleport to="body">
-    <LoginPage
-      v-if="isLoginPageVisible"
-      @close="closeLoginPage"
-      @open-register="openRegisterPage"
-      @open-resetpassword="openResetPasswordPage"
-      @login-success="handleLoginSuccess"
-    />
+    <LoginPage v-if="isLoginPageVisible" @close="closeLoginPage" @open-register="openRegisterPage"
+      @open-resetpassword="openResetPasswordPage" @login-success="handleLoginSuccess" />
 
-    <RegistPage
-      v-if="isRegistPageVisible"
-      @close="isRegistPageVisible = false"
-      @open-login="openLoginFromRegister"
-    />
+    <RegistPage v-if="isRegistPageVisible" @close="isRegistPageVisible = false" @open-login="openLoginFromRegister" />
 
-    <ResetPassword
-      v-if="isResetPasswordVisible"
-      @close="isResetPasswordVisible = false"
-      @open-login="openLoginFromReset"
-    />
+    <ResetPassword v-if="isResetPasswordVisible" @close="isResetPasswordVisible = false"
+      @open-login="openLoginFromReset" />
   </Teleport>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router'
 
 import KakaoMap from '@/components/kakaomap/Map.vue';
@@ -97,6 +67,9 @@ import LoginPage from '@/components/user/LoginPage.vue';
 import RegistPage from '@/components/user/RegistPage.vue';
 import ResetPassword from '@/components/user/ResetPassword.vue';
 
+import { useTravelPlanStore } from '@/stores/useTravelPlanStore';
+import TravelButton from '../tour/TravelButton.vue';
+import MyTravelPanel from '../tour/MyTravelPanel.vue';
 
 /* ================= 상태 ================= */
 
@@ -104,12 +77,13 @@ const isMenuPageVisible = ref(false);
 const isLoginPageVisible = ref(false);
 const isRegistPageVisible = ref(false);
 const isResetPasswordVisible = ref(false);
-const isMyPageVisible = ref(false);
 const isLoggedIn = ref(false);
+const isMyTravelVisible = ref(false);
 
 const currentPlaces = ref([]);
 const centerInfo = ref({});
 
+const travelPlanStore = useTravelPlanStore();
 /* ================= 인증 ================= */
 
 const openLoginPage = () => {
@@ -157,6 +131,10 @@ const handleLogout = () => {
   location.reload();
 };
 
+const toggleMyTravel = () => {
+  isMyTravelVisible.value = !isMyTravelVisible.value;
+}
+
 /* ================= 지도 / 메뉴 ================= */
 
 const handleToggleMenu = () => {
@@ -176,6 +154,10 @@ const router = useRouter()
 const goMyPage = () => {
   router.push('/mypage')
 }
+
+onMounted(() => {
+  travelPlanStore.load();
+})
 
 </script>
 
