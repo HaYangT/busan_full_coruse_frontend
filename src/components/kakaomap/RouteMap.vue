@@ -1,3 +1,6 @@
+<template>
+  <div id="route-map"></div>
+</template>
 <script setup>
 import { onMounted, watch } from 'vue'
 
