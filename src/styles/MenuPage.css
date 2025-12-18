@@ -1,208 +1,140 @@
+/* =========================
+   Layout
+========================= */
 .menu-page-container {
-
   position: fixed;
-
   top: 0;
-
   left: 250px;
-
   width: 400px;
-
   height: 100vh;
 
-  background: white;
-
-  border-left: 1px solid #ccc;
-
-  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-
-  z-index: 3000;
-
   display: flex;
-
   flex-direction: column;
 
+  background: #fff;
+  border-left: 1px solid #ccc;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 3000;
   overflow: visible;
-
 }
 
+/* =========================
+   Header
+========================= */
 .menu-page-header {
-
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
 
   padding: 15px 20px;
-
-  border-bottom: 1px solid #eee;
-
   background-color: #f7f7f7;
-
+  border-bottom: 1px solid #eee;
   flex-shrink: 0;
-
 }
 
 .close-button {
-
   background: none;
-
   border: none;
-
-  color: #333;
-
-  cursor: pointer;
-
   padding: 5px;
 
+  color: #333;
+  cursor: pointer;
   border-radius: 50%;
-
   transition: background-color 0.2s;
-
 }
-
-
 
 .close-button:hover {
-
   background-color: #eee;
-
 }
 
-
-
+/* =========================
+   Image
+========================= */
 .image-container {
-
   width: 100%;
-
 }
-
-
 
 .custom-image {
-
   width: 100%;
-
   height: 200px;
-
   object-fit: cover;
-
 }
 
-
-
+/* =========================
+   List
+========================= */
 .place-list {
-
   list-style: none;
-
   padding: 0 20px;
-
   margin-top: 10px;
-
-}
-
-
-
-.place-list li {
-
-  padding: 8px 0;
-
-  border-bottom: 1px solid #eee;
-
 }
 
 .list-item {
-
   padding: 10px 0;
-
   border-bottom: 1px solid #eee;
 
   cursor: pointer;
-
   transition: background-color 0.2s;
-
 }
-
-
 
 .list-item:hover {
-
   background-color: #f0f0f0;
-
 }
-
-
 
 .list-item.active {
-
   background-color: #e6f7ff;
-
   font-weight: bold;
-
 }
 
-
-
-.slide-fade-enter-active,
-
-.slide-fade-leave-active {
-
-  transition: all 0.3s ease;
-
-}
-
-
-
-.slide-fade-enter-from,
-
-.slide-fade-leave-to {
-
-  transform: translateX(-20px);
-
-  opacity: 0;
-
-}
-
+/* =========================
+   Scroll Area
+========================= */
 .list-scroll-wrapper {
-
   max-height: 40%;
-
   overflow-y: auto;
-
   padding-right: 6px;
-
 }
 
+.list-scroll-wrapper.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-
+/* Scrollbar */
 .list-scroll-wrapper::-webkit-scrollbar {
-
   width: 8px;
-
 }
-
-
 
 .list-scroll-wrapper::-webkit-scrollbar-thumb {
-
   background: #ccc;
-
   border-radius: 4px;
-
 }
-
-
 
 .list-scroll-wrapper::-webkit-scrollbar-thumb:hover {
-
   background: #999;
-
 }
 
+/* =========================
+   Empty State
+========================= */
 .empty-message {
   padding: 20px;
   text-align: center;
-  color: #777;
   font-size: 14px;
+  color: #777;
+}
+
+/* =========================
+   Transition
+========================= */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
 }

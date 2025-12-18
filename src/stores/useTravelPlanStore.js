@@ -1,68 +1,70 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useTravelPlanStore = defineStore('travelPlan', {
+export const useTravelPlanStore = defineStore("travelPlan", {
   state: () => ({
     plan: {
-      title: '나의 여행 계획',
-      items: []
-    }
+      title: "나의 여행 계획",
+      items: [],
+    },
   }),
 
   getters: {
-    totalCount: (state) => state.plan.items.length
+    totalCount: (state) => state.plan.items.length,
   },
 
   actions: {
     load() {
-      const saved = localStorage.getItem('travelPlan')
-      if (saved) {
-        this.plan = JSON.parse(saved)
-      }
+     
     },
 
     save() {
-      localStorage.setItem('travelPlan', JSON.stringify(this.plan))
+      localStorage.setItem("travelPlan", JSON.stringify(this.plan));
     },
 
     addPlace(place) {
-      const exists = this.plan.items.find(
-        item => item.placeId === place.id
-      )
-      if (exists) return
+      const exists = this.plan.items.find((item) => item.placeId === place.id);
+      if (exists) return;
 
       this.plan.items.push({
         order: this.plan.items.length + 1,
         placeId: place.id,
         name: place.name,
         x: place.x,
-        y: place.y
-      })
+        y: place.y,
+      });
 
-      this.save()
+      this.save();
     },
 
     removePlace(placeId) {
       this.plan.items = this.plan.items
-        .filter(item => item.placeId !== placeId)
+        .filter((item) => item.placeId !== placeId)
         .map((item, index) => ({
           ...item,
-          order: index + 1
-        }))
+          order: index + 1,
+        }));
 
-      this.save()
+      this.save();
     },
 
     reorder(newItems) {
       this.plan.items = newItems.map((item, index) => ({
         ...item,
-        order: index + 1
-      }))
-      this.save()
+        order: index + 1,
+      }));
+      this.save();
     },
 
     clear() {
-      this.plan.items = []
-      this.save()
-    }
-  }
-})
+      this.plan.items = [];
+      this.save();
+    },
+
+    clearPlan() {
+      this.plan = {
+        title: '',
+        items: [],
+      };
+    },
+  },
+});

@@ -36,7 +36,6 @@
       </div>
     </div>
 
-    <!-- 리뷰 수정 폼 (모달처럼 사용) -->
     <div v-if="editingReview" class="modal-overlay">
       <div class="modal-box">
         <UpdateReview

@@ -11,16 +11,18 @@
     </div>
 
     <div>
-      <div class="list-scroll-wrapper">
-        <ul class="place-list" v-if="places.length > 0">
+      <div class="list-scroll-wrapper" v-if="places.length > 0">
+        <ul class="place-list">
           <li v-for="item in places" :key="item.id" @click="openDetail(item)" class="list-item"
             :class="{ active: selectedItem?.id === item.id }">
             {{ item.name }}
           </li>
         </ul>
-        <EmptyMessage v-else />
       </div>
+
+      <EmptyMessage v-else />
     </div>
+
   </div>
 
   <Transition name="slide-fade">
