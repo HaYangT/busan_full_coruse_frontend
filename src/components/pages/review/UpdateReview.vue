@@ -6,13 +6,8 @@
     <div class="rating-container">
       <label>별점</label>
       <div class="stars">
-        <span
-          v-for="star in 5"
-          :key="star"
-          class="star"
-          :class="{ active: star <= rating }"
-          @click="rating = star"
-        >★</span>
+        <span v-for="star in 5" :key="star" class="star" :class="{ active: star <= rating }"
+          @click="rating = star">★</span>
       </div>
       <span class="rating-score">{{ rating }}점</span>
     </div>
@@ -126,7 +121,7 @@ const submitUpdate = async () => {
     await axios.put(`${baseUrl}/api/v1/review/${props.review.id}`, formData, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    
+
     alert("수정 완료!");
     emit("updated");
   } catch (e) {
@@ -137,8 +132,57 @@ const submitUpdate = async () => {
 </script>
 
 <style scoped>
-.btn-row { display: flex; gap: 8px; }
-.cancel-button { background: #aaa; color: #fff; }
-.preview-list { display: flex; gap: 8px; flex-wrap: wrap; }
-.preview-thumb { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
+.btn-row {
+  display: flex;
+  gap: 8px;
+}
+
+.cancel-button {
+  background: #aaa;
+  color: #fff;
+}
+
+.preview-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.preview-thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.rating-container {
+  margin-bottom: 16px;
+}
+
+.stars {
+  display: flex;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.star {
+  font-size: 28px;
+  color: #ddd;
+  transition: color 0.2s, transform 0.1s;
+}
+
+.star.active {
+  color: #ffb400;
+}
+
+.star:hover {
+  transform: scale(1.15);
+}
+
+.rating-score {
+  margin-left: 8px;
+  font-weight: bold;
+  color: #555;
+}
 </style>
