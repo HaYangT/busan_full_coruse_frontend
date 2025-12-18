@@ -29,12 +29,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import DetailPage from './DetailPage.vue';
 import ToggleButton from './ToggleButton.vue';
 import EmptyMessage from '@/components/pages/menu/EmptyMessage.vue';
 const imgUrl = ref("https://www.geoje.go.kr/upload_data/photodb/thumb/2025010621142591973.jpg");
-const isLoading = ref(false);
 const selectedItem = ref(null);
 
 

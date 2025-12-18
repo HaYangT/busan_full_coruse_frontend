@@ -81,17 +81,14 @@ const reviews = ref([]);
 const isLoading = ref(false);
 const editingReviewId = ref(null);
 
-/* 내 리뷰 판별 */
 const isMyReview = (review) => {
   return userInfo && review.userId === userInfo.id;
 };
 
-/* 수정 토글 */
 const toggleEdit = (id) => {
   editingReviewId.value = editingReviewId.value === id ? null : id;
 };
 
-/* 리뷰 조회 */
 const fetchReviews = async () => {
   if (!props.item?.id) return;
 
@@ -115,32 +112,27 @@ const fetchReviews = async () => {
   }
 };
 
-/* 수정 완료 */
 const onUpdated = () => {
   editingReviewId.value = null;
   fetchReviews();
 };
 
-/* 날짜 포맷 */
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
   const d = new Date(dateStr);
   return d.toLocaleDateString("ko-KR");
 };
 
-/* 이미지 원본 보기 */
 const openImage = (path) => {
   window.open(`${baseUrl}/upload/${path}`, "_blank");
 };
 
-/* 대상 변경 시 재조회 */
 watch(
   () => props.item.id,
   fetchReviews,
   { immediate: true }
 );
 
-/*리뷰 삭제 */
 const deleteReview = async (reviewId) => {
   if (!confirm("리뷰를 삭제하시겠습니까?")) return;
 
@@ -154,10 +146,8 @@ const deleteReview = async (reviewId) => {
       }
     );
 
-    // 즉시 UI 반영
     reviews.value = reviews.value.filter(r => r.id !== reviewId);
 
-    // 수정 중이던 리뷰라면 닫기
     if (editingReviewId.value === reviewId) {
       editingReviewId.value = null;
     }

@@ -18,15 +18,11 @@
 
 <script setup>
 import { reactive } from 'vue';
-import { useRouter, RouterLink } from 'vue-router'; 
-
-const router = useRouter();
+import {RouterLink } from 'vue-router'; 
 
 const menuItems = reactive([
   { name: '홈', path: '/' },
 ]);
-
-
 </script>
 
 <style scoped>

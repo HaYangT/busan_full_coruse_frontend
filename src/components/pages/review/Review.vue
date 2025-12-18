@@ -3,7 +3,9 @@
     <!-- 헤더 -->
     <div class="review-header">
       <h2>리뷰</h2>
-      <button class="close-btn" @click="$emit('close')">닫기</button>
+      <button class="write-review-btn" @click="isReviewWriteVisible = true">
+        리뷰 등록하기
+      </button>
     </div>
 
     <!-- 리뷰 목록 -->
@@ -15,8 +17,10 @@
 
     <!-- 리뷰 등록 -->
     <CreateReview
+      v-show="isReviewWriteVisible"
       :item="item"
-      @created="refreshReviews"
+      @created="handleReviewCreated"
+      @close="isReviewWriteVisible = false"
     />
   </div>
 </template>
@@ -32,7 +36,7 @@ const props = defineProps({
 });
 
 defineEmits(["close"]);
-
+const isReviewWriteVisible = ref(false);
 const reviewListRef = ref(null);
 const editingReview = ref(null);
 
@@ -46,9 +50,9 @@ const refreshReviews = () => {
   reviewListRef.value?.fetchReviews();
 };
 
-/* 수정 완료 */
-const onUpdateSuccess = () => {
-  editingReview.value = null;
+/* 리뷰 등록 완료 처리 */
+const handleReviewCreated = () => {
+  isReviewWriteVisible.value = false; // 폼 닫기
   refreshReviews();
 };
 </script>

@@ -4,21 +4,20 @@
     <ToggleButton 
       :is-open="true" 
       @click="$emit('toggle-all')" 
+      class="toggle-btn"
     />
     
-    <div class="detail-header">
+    <header class="detail-header">
       <h3>{{ item.name }} 상세 정보</h3>
       <button @click="$emit('close')" class="close-btn">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg class="icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
-    </div>
-    <div>
-      <button class = "add-to-my-tour-button" @click = "addToMyTour"> 내 여정에 추가 </button>
-    </div>
+    </header>
+
     <div class="submenu-bar">
-      <SubMenuBar/>
+      <SubMenuBar @add-to-list = "addToMyTour"/>
     </div>    
     
     <div class="detail-content">
@@ -30,6 +29,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import ToggleButton from '@/components/pages/menu/ToggleButton.vue'; 
@@ -54,10 +54,9 @@ const handleReviewSuccess = () => {
   console.log('리뷰 등록 성공, 목록 갱신 등이 필요하면 여기서 처리');
 };
 
-const addToMyTour = () =>{
+const addToMyTour = () => {
   travelPlanStore.addPlace(props.item);
 }
-
 </script>
 
 <style scoped>
