@@ -2,27 +2,23 @@
   <div class="review-list-container">
     <h3>리뷰 목록</h3>
 
-    <!-- 로딩 -->
     <div v-if="isLoading" class="review-loading">
       리뷰 불러오는 중...
     </div>
-
-    <!-- 빈 상태 -->
+    
     <div v-else-if="reviews.length === 0" class="review-empty">
       아직 작성된 리뷰가 없습니다.
     </div>
 
-    <!-- 리스트 -->
+
     <div v-else class="review-list">
       <div v-for="review in reviews" :key="review.id" class="review-block">
-        <!-- 리뷰 카드 -->
         <div class="review-item">
-          <!-- 작성자 -->
+
           <div class="review-user">
             {{ review.nickname || "익명" }}
           </div>
 
-          <!-- 별점 -->
           <div class="review-rating">
             <span v-for="n in 5" :key="n" :class="{ active: n <= review.rating }">
               ★
@@ -30,18 +26,15 @@
             <span class="rating-score">{{ review.rating }}</span>
           </div>
 
-          <!-- 내용 -->
           <div class="review-content">
             {{ review.content }}
           </div>
 
-          <!-- 이미지 (썸네일) -->
           <div v-if="review.pictures && review.pictures.length" class="review-images">
             <img v-for="img in review.pictures" :key="img.id" :src="`${baseUrl}/upload/${img.picturePath}`"
               class="review-thumb" @click="openImage(img.picturePath)" />
           </div>
 
-          <!-- 날짜 -->
           <div class="review-date">
             {{ formatDate(review.createdAt) }}
           </div>
@@ -56,8 +49,6 @@
           </div>
         </div>
 
-
-        <!-- 🔽 수정 폼 -->
         <UpdateReview v-if="editingReviewId === review.id" :review="review" @updated="onUpdated"
           @cancel="editingReviewId = null" />
       </div>
