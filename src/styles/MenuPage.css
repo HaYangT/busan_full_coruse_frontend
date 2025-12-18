@@ -15,7 +15,6 @@
   border-left: 1px solid #ccc;
   box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
   z-index: 3000;
-  overflow: visible;
 }
 
 /* =========================
@@ -63,6 +62,12 @@
 /* =========================
    List
 ========================= */
+.list-area {
+  flex: 1;             
+  overflow-y: auto;        
+  padding-right: 6px;
+  padding-bottom: 80px;
+}
 .place-list {
   list-style: none;
   padding: 0 20px;
@@ -102,16 +107,16 @@
 }
 
 /* Scrollbar */
-.list-scroll-wrapper::-webkit-scrollbar {
+.list-area::-webkit-scrollbar {
   width: 8px;
 }
 
-.list-scroll-wrapper::-webkit-scrollbar-thumb {
+.list-area::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 4px;
 }
 
-.list-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+.list-area::-webkit-scrollbar-thumb:hover {
   background: #999;
 }
 

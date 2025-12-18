@@ -1,21 +1,22 @@
 <template>
   <div id="map"></div>
-  
+
   <div class="coords-info">
     <h3>현재 지도 중심 좌표</h3>
-    <div class="input-group">
-      <label for="distInput">검색 반경(Km): </label>
-      <input 
-        id="distInput" 
-        type="number" 
-        v-model="dist" 
-        @change="handleDistChange"
-        step="0.1"
-        min="0.1"
-      />
+    <div class="distance-buttons">
+      <span>검색 반경:</span>
+      <button
+        v-for="km in DIST_OPTIONS"
+        :key="km"
+        :class="{ active: dist === km }"
+        @click="setDistance(km)"
+      >
+        {{ km }} km
+      </button>
     </div>
-    <p>위도: **{{ centerLat.toFixed(6) }}**</p>
-    <p>경도: **{{ centerLng.toFixed(6) }}**</p>
+
+    <p>위도: {{ centerLat.toFixed(6) }}</p>
+    <p>경도: {{ centerLng.toFixed(6) }}</p>
   </div>
 </template>
 
@@ -24,8 +25,9 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios'
 const centerLat = ref(0);
 const centerLng = ref(0);
-const dist = ref(0.1);
+const dist = ref(1);
 const places = ref([]);
+const DIST_OPTIONS = [1, 3, 5, 10]
 const emit = defineEmits(['update-places','update-center']);
 const map = ref(null); 
 const markers = ref([]);
@@ -58,6 +60,14 @@ const getCurrentLocation = () => {
     );
   });
 };
+
+const setDistance = (km) => {
+  dist.value = km
+  if (centerLat.value && centerLng.value) {
+    fetchPlaces(centerLat.value, centerLng.value)
+  }
+}
+
 const removeMarkers = () => {
     for (let i = 0; i < markers.value.length; i++) {
         markers.value[i].setMap(null);
@@ -115,11 +125,6 @@ const displayMarkers = (placeList) => {
     
   }
 
-  const handleDistChange = () =>{
-    if(centerLat.value && centerLng.value) {
-      fetchPlaces(centerLat.value,centerLng.value);
-    }
-  };
 const loadKakaoMap = async () => {
     const COORDS = await getCurrentLocation();
     const container = document.getElementById('map');
