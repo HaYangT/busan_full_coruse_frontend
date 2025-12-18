@@ -32,8 +32,7 @@
 
     <!-- 메뉴 페이지 -->
     <MenuPage v-if="isMenuPageVisible" :is-menu-page-visible="isMenuPageVisible" :places="currentPlaces"
-      :center-info="centerInfo" @toggle-menu-page="handleToggleMenu" @move-map="moveMapCenter"
-      @select-place="handleSelectPlace" />
+      :center-info="centerInfo" @toggle-menu-page="handleToggleMenu"@select-place="handleSelectPlace" />
   </div>
 
   <TravelButton v-show="isLoggedIn && !isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible"
