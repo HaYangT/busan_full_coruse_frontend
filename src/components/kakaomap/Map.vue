@@ -36,6 +36,19 @@ const DEFAULT_COORDS = {
     LNG: 126.570667,
 };
 
+
+const panTo = (lat, lng) => {
+  if (!map.value) return
+
+  const moveLatLng = new window.kakao.maps.LatLng(lat, lng)
+  map.value.setLevel(3)
+  map.value.panTo(moveLatLng)
+}
+
+defineExpose({
+  panTo
+})
+
 const getCurrentLocation = () => {
   return new Promise((resolve) => {
     if (!navigator.geolocation) {

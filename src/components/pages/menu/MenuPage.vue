@@ -12,7 +12,7 @@
 
     <div class="list-area">
       <ul v-if="places.length > 0" class="place-list">
-        <li v-for="item in places" :key="item.id" @click="openDetail(item)" class="list-item"
+        <li v-for="item in places" :key="item.id" @click="openDetail(item);" class="list-item"
           :class="{ active: selectedItem?.id === item.id }">
           {{ item.name }}
         </li>
@@ -34,12 +34,12 @@ import ToggleButton from './ToggleButton.vue';
 import EmptyMessage from '@/components/pages/menu/EmptyMessage.vue';
 const imgUrl = ref("https://img.freepik.com/premium-vector/tick-mark-icon-symbol-vector-illustration_875240-2906.jpg");
 const selectedItem = ref(null);
-
+const emit = defineEmits(['toggle-menu-page', 'close', 'select-place']);
 
 
 const openDetail = (item) => {
   selectedItem.value = item;
-  console.log(item);
+  emit('select-place', item);
   if (item.imageUrl) {
     imgUrl.value = item.imageUrl
   }
@@ -64,7 +64,9 @@ const props = defineProps({
   }
 });
 
-defineEmits(['toggle-menu-page', 'close']);
+const selectPlace = (item) => {
+  emit('select-place', item)
+}
 
 </script>
 

@@ -22,7 +22,7 @@
     <div class="content-area">
       <div class="app-container">
         <h1>카카오맵 연동 테스트</h1>
-        <KakaoMap @update-center="handleCenterUpdate" @update-places="handlePlacesUpdate" />
+        <KakaoMap ref="mapRef" @update-center="handleCenterUpdate" @update-places="handlePlacesUpdate" />
       </div>
     </div>
 
@@ -32,10 +32,12 @@
 
     <!-- 메뉴 페이지 -->
     <MenuPage v-if="isMenuPageVisible" :is-menu-page-visible="isMenuPageVisible" :places="currentPlaces"
-      :center-info="centerInfo" @toggle-menu-page="handleToggleMenu" />
+      :center-info="centerInfo" @toggle-menu-page="handleToggleMenu" @move-map="moveMapCenter"
+      @select-place="handleSelectPlace" />
   </div>
 
-  <TravelButton v-show="isLoggedIn && !isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible" @click="toggleMyTravel" />
+  <TravelButton v-show="isLoggedIn && !isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible"
+    @click="toggleMyTravel" />
 
   <MyTravelPanel v-if="isMyTravelVisible" @close="isMyTravelVisible = false" />
 
@@ -82,6 +84,7 @@ const isMyTravelVisible = ref(false);
 
 const currentPlaces = ref([]);
 const centerInfo = ref({});
+const mapRef = ref(null);
 
 const travelPlanStore = useTravelPlanStore();
 /* ================= 인증 ================= */
@@ -130,6 +133,10 @@ const handleLogout = () => {
   isLoggedIn.value = false;
   location.reload();
 };
+
+const handleSelectPlace = (place) => {
+  mapRef.value?.panTo(place.y, place.x)
+}
 
 const toggleMyTravel = () => {
   isMyTravelVisible.value = !isMyTravelVisible.value;
