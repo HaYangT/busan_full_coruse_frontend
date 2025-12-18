@@ -5,7 +5,7 @@
     <div v-if="isLoading" class="review-loading">
       리뷰 불러오는 중...
     </div>
-    
+
     <div v-else-if="reviews.length === 0" class="review-empty">
       아직 작성된 리뷰가 없습니다.
     </div>
@@ -23,7 +23,6 @@
             <span v-for="n in 5" :key="n" :class="{ active: n <= review.rating }">
               ★
             </span>
-            <span class="rating-score">{{ review.rating }}</span>
           </div>
 
           <div class="review-content">
@@ -191,5 +190,28 @@ defineExpose({ fetchReviews });
 
 .delete-btn:hover {
   background: #d9363e;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.review-rating span {
+  font-size: 18px;
+  color: #ddd;
+}
+
+.review-rating span.active {
+  color: #ffb400;
+}
+
+.rating-score {
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
 }
 </style>
