@@ -4,7 +4,7 @@
 .menu-page-container {
   position: fixed;
   top: 0;
-  left: 250px;
+  left: 100px;
   width: 400px;
   height: 100vh;
 
@@ -63,8 +63,8 @@
    List
 ========================= */
 .list-area {
-  flex: 1;             
-  overflow-y: auto;        
+  flex: 1;
+  overflow-y: auto;
   padding-right: 6px;
   padding-bottom: 80px;
 }
