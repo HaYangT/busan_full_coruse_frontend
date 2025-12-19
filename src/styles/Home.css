@@ -75,13 +75,13 @@ body {
 .search-overlay {
   position: absolute;
   top: 25px;
-  left: 110px; /* 사이드바 너비(100px) + 여백(20px) */
-  width: 350px; /* 메뉴 페이지와 너비를 맞추면 일체감이 생깁니다 */
-  height: 40px; /* 높이 약간 조절 */
-
+  left: 110px;
+  width: 350px;
+  height: 40px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(6px);
   border-radius: 10px;
+  border-color: #4a90e2;
   padding: 0 15px;
 
   display: flex;
@@ -89,17 +89,15 @@ body {
 
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 
-  /* 핵심: MenuPage(3000)보다 높게 설정 */
   z-index: 4000;
   transition: all 0.3s ease;
 }
 
-/* 메뉴 페이지가 열렸을 때 검색창의 위치를 메뉴 페이지 안쪽으로 맞추고 싶다면 */
 .search-overlay.is-menu-open {
-  left: 515px; /* MenuPage의 left 값과 동일하게 설정 */
-  width: 350px; /* MenuPage의 width와 동일하게 설정 */
-  border-radius: 12px 12px 0 0; /* 위쪽만 라운드 처리하여 일체감 부여 */
-  top: 15px; /* MenuPage의 top 값과 동일하게 설정 */
-  box-shadow: none; /* 메뉴 페이지와 합쳐져 보이기 위해 그림자 제거 가능 */
+  left: 515px;
+  width: 350px;
+  border-radius: 12px 12px 0 0;
+  top: 15px;
+  box-shadow: none;
   border-bottom: 1px solid #f0f0f0;
 }

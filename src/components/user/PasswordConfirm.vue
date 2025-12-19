@@ -43,10 +43,10 @@ const onConfirm = async () => {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
     await axios.post(`${baseUrl}/api/v1/password/reset`, {
       token: token.value,
-      newPassword: newPassword.value
+      newPassword: newPassword.value,
     });
     alert("비밀번호가 성공적으로 변경되었습니다.");
-    router.push("/login");
+    router.push("/");
   } catch (err) {
     alert(err.response?.data?.message || "변경에 실패했습니다.");
   }
@@ -54,5 +54,5 @@ const onConfirm = async () => {
 </script>
 
 <style scoped>
-@import '/src/styles/ResetPassword.css';
+@import "/src/styles/ResetPassword.css";
 </style>

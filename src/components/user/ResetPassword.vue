@@ -34,7 +34,7 @@ import { ref } from "vue";
 // const id = ref("");
 const email = ref("");
 const isLoading = ref(false);
-
+const emit = defineEmits(["close"]);
 const onReset = async () => {
   let resultMessage = "";
 
@@ -51,6 +51,7 @@ const onReset = async () => {
 
     resultMessage = response.data.message;
     alert(resultMessage);
+    emit("close");
   } catch (error) {
     console.log(error);
     resultMessage = error.response.data.message;

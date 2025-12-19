@@ -22,7 +22,7 @@
         <KakaoMap ref="mapRef" @update-center="handleCenterUpdate" @update-places="handlePlacesUpdate" />
       </div>
     </div>
-    <SearchBar class="search-overlay" />
+    <SearchBar class="search-overlay" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible" />
     <!-- 메뉴 토글 -->
     <ToggleButton
       v-if="!isMenuPageVisible"

@@ -46,9 +46,9 @@
 
 .menu-link.router-link-active,
 .menu-link.router-link-exact-active {
-  color: #42b883;
+  color: #4a90e2;
   background-color: #2b2b2b;
-  border-left: 4px solid #42b883;
+  border-left: 4px solid #4a90e2;
   padding-left: 16px;
 }
 
