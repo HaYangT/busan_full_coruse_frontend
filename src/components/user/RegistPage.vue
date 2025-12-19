@@ -23,12 +23,14 @@
       </form>
 
       <div class="links">
-        <RouterLink to="/login" class="link" @click.prevent="$emit('open-login')">
-          뒤로가기
-        </RouterLink>
+        <button type="button" class="link" @click.prevent="$emit('open-login')">뒤로가기</button>
       </div>
 
-      <button class="close-btn" @click="$emit('close')">X</button>
+      <button class="close-btn" @click="$emit('close')">
+        <svg class="icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
     </div>
   </div>
 </template>
@@ -59,10 +61,7 @@ watch(email, () => {
 
 watch([password, confirmPassword], () => {
   if (password.value && confirmPassword.value) {
-    passwordError.value =
-      password.value !== confirmPassword.value
-        ? "비밀번호가 일치하지 않습니다."
-        : "";
+    passwordError.value = password.value !== confirmPassword.value ? "비밀번호가 일치하지 않습니다." : "";
   } else {
     passwordError.value = "";
   }
@@ -144,5 +143,5 @@ const onRegist = async () => {
 </script>
 
 <style scoped>
-@import '/src/styles/RegistPage.css';
+@import "/src/styles/RegistPage.css";
 </style>
