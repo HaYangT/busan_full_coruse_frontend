@@ -7,9 +7,7 @@ import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 const centerLat = ref(0);
 const centerLng = ref(0);
-const dist = ref(3);
 const places = ref([]);
-
 const emit = defineEmits(["update-places", "update-center"]);
 const map = ref(null);
 const markers = ref([]);
@@ -19,6 +17,10 @@ const props = defineProps({
   searchQuery: {
     type: String,
     default: "",
+  },
+  searchDist: {
+    type: Number,
+    default: 1,
   },
 });
 const DEFAULT_COORDS = {
@@ -61,13 +63,6 @@ const getCurrentLocation = () => {
       }
     );
   });
-};
-
-const setDistance = (km) => {
-  dist.value = km;
-  if (centerLat.value && centerLng.value) {
-    fetchPlaces(centerLat.value, centerLng.value);
-  }
 };
 
 const removeMarkers = () => {
@@ -113,11 +108,11 @@ const fetchPlaces = async (lat, lng) => {
       params: {
         x: lng,
         y: lat,
-        dist: dist.value,
+        dist: props.searchDist,
       },
     });
     emit("update-places", response.data);
-    emit("update-center", { lat: lat, lng: lng, dist: dist.value });
+    emit("update-center", { lat: lat, lng: lng, dist: props.searchDist });
     places.value = response.data;
     displayMarkers(places.value);
   } catch (error) {
@@ -131,7 +126,7 @@ const fetchPlacesByQuery = async (lat, lng, query) => {
   const params = {
     x: lng,
     y: lat,
-    dist: 10,
+    dist: props.searchDist,
   };
   if (refreshToken) {
     params.refreshToken = refreshToken;
@@ -144,7 +139,7 @@ const fetchPlacesByQuery = async (lat, lng, query) => {
       headers: { ...authHeader, "Content-Type": "multipart/form-data" },
     });
     emit("update-places", response.data);
-    emit("update-center", { lat: lat, lng: lng, dist: dist.value });
+    emit("update-center", { lat: lat, lng: lng, dist: props.searchDist });
     places.value = response.data;
     displayMarkers(places.value);
   } catch (error) {
@@ -201,6 +196,12 @@ watch(
   (newQuery) => {
     if (newQuery) {
       fetchPlacesByQuery(centerLat.value, centerLng.value, newQuery);
+    }
+  },
+  () => props.searchDist,
+  (newDist) => {
+    if (newDist) {
+      fetchPlaces(centerLat.value, centerLng.value);
     }
   }
 );

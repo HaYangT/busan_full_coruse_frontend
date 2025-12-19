@@ -24,6 +24,7 @@
           @update-center="handleCenterUpdate"
           @update-places="handlePlacesUpdate"
           :search-query="searchQuery"
+          :search-dist="searchRadius"
         />
       </div>
     </div>
@@ -61,6 +62,12 @@
   />
 
   <MyTravelPanel v-if="isMyTravelVisible" @close="isMyTravelVisible = false" />
+
+  <!--거리 조절 바-->
+  <div class="distance-control" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
+    <label for="radius">검색 반경: {{ searchRadius }}Km</label>
+    <input type="range" id="radius" v-model.number="searchRadius" min="1" max="10" step="0.1" />
+  </div>
 
   <!-- ===================== -->
   <!-- 모달 영역 -->
@@ -117,6 +124,7 @@ const mapRef = ref(null);
 
 const searchInput = ref("");
 const searchQuery = ref("");
+const searchRadius = ref(1);
 
 const travelPlanStore = useTravelPlanStore();
 /* ================= 인증 ================= */
