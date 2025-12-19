@@ -19,10 +19,23 @@
     <!-- 메인 콘텐츠 -->
     <div class="content-area">
       <div class="app-container">
-        <KakaoMap ref="mapRef" @update-center="handleCenterUpdate" @update-places="handlePlacesUpdate" />
+        <KakaoMap
+          ref="mapRef"
+          @update-center="handleCenterUpdate"
+          @update-places="handlePlacesUpdate"
+          :search-query="searchQuery"
+        />
       </div>
     </div>
-    <SearchBar class="search-overlay" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible" />
+
+    <!--검색 창-->
+    <input
+      class="search-overlay"
+      v-model="searchInput"
+      @keydown.enter="handleSearch"
+      placeholder="장소 검색"
+      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible"
+    />
     <!-- 메뉴 토글 -->
     <ToggleButton
       v-if="!isMenuPageVisible"
@@ -80,7 +93,6 @@ import KakaoMap from "@/components/kakaomap/Map.vue";
 import MenuBar from "@/components/pages/menu/MenuBar.vue";
 import MenuPage from "@/components/pages/menu/MenuPage.vue";
 import ToggleButton from "@/components/pages/menu/ToggleButton.vue";
-import SearchBar from "./menu/SearchBar.vue";
 
 import LoginPage from "@/components/user/LoginPage.vue";
 import RegistPage from "@/components/user/RegistPage.vue";
@@ -102,6 +114,9 @@ const isMyTravelVisible = ref(false);
 const currentPlaces = ref([]);
 const centerInfo = ref({});
 const mapRef = ref(null);
+
+const searchInput = ref("");
+const searchQuery = ref("");
 
 const travelPlanStore = useTravelPlanStore();
 /* ================= 인증 ================= */
@@ -172,6 +187,11 @@ const handlePlacesUpdate = (newPlaces) => {
 
 const handleCenterUpdate = (info) => {
   centerInfo.value = info;
+};
+
+const handleSearch = () => {
+  searchQuery.value = searchInput.value;
+  isMenuPageVisible.value = true;
 };
 
 /* ========== 라우터 ========= */

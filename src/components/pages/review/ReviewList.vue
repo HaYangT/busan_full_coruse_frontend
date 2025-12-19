@@ -2,27 +2,19 @@
   <div class="review-list-container">
     <h3>리뷰 목록</h3>
 
-    <div v-if="isLoading" class="review-loading">
-      리뷰 불러오는 중...
-    </div>
+    <div v-if="isLoading" class="review-loading">리뷰 불러오는 중...</div>
 
-    <div v-else-if="reviews.length === 0" class="review-empty">
-      아직 작성된 리뷰가 없습니다.
-    </div>
-
+    <div v-else-if="reviews.length === 0" class="review-empty">아직 작성된 리뷰가 없습니다.</div>
 
     <div v-else class="review-list">
       <div v-for="review in reviews" :key="review.id" class="review-block">
         <div class="review-item">
-
           <div class="review-user">
             {{ review.nickname || "익명" }}
           </div>
 
           <div class="review-rating">
-            <span v-for="n in 5" :key="n" :class="{ active: n <= review.rating }">
-              ★
-            </span>
+            <span v-for="n in 5" :key="n" :class="{ active: n <= review.rating }"> ★ </span>
           </div>
 
           <div class="review-content">
@@ -30,8 +22,13 @@
           </div>
 
           <div v-if="review.pictures && review.pictures.length" class="review-images">
-            <img v-for="img in review.pictures" :key="img.id" :src="`${baseUrl}/upload/${img.picturePath}`"
-              class="review-thumb" @click="openImage(img.picturePath)" />
+            <img
+              v-for="img in review.pictures"
+              :key="img.id"
+              :src="`${baseUrl}/upload/${img.picturePath}`"
+              class="review-thumb"
+              @click="openImage(img.picturePath)"
+            />
           </div>
 
           <div class="review-date">
@@ -42,14 +39,16 @@
               {{ editingReviewId === review.id ? "수정 취소" : "수정" }}
             </button>
 
-            <button class="delete-btn" @click="deleteReview(review.id)">
-              삭제
-            </button>
+            <button class="delete-btn" @click="deleteReview(review.id)">삭제</button>
           </div>
         </div>
 
-        <UpdateReview v-if="editingReviewId === review.id" :review="review" @updated="onUpdated"
-          @cancel="editingReviewId = null" />
+        <UpdateReview
+          v-if="editingReviewId === review.id"
+          :review="review"
+          @updated="onUpdated"
+          @cancel="editingReviewId = null"
+        />
       </div>
     </div>
   </div>
@@ -64,7 +63,7 @@ const baseUrl = import.meta.env.VITE_SERVER_URL;
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 const props = defineProps({
-  item: { type: Object, required: true }
+  item: { type: Object, required: true },
 });
 
 const reviews = ref([]);
@@ -84,15 +83,12 @@ const fetchReviews = async () => {
 
   try {
     isLoading.value = true;
-    const res = await axios.get(
-      `${baseUrl}/api/v1/review/getReviewsByTarget`,
-      {
-        params: {
-          targetId: props.item.id,
-          targetType: props.item.tagType
-        }
-      }
-    );
+    const res = await axios.get(`${baseUrl}/api/v1/review/getReviewsByTarget`, {
+      params: {
+        targetId: props.item.id,
+        targetType: props.item.tagType,
+      },
+    });
     reviews.value = res.data;
     console.log(reviews.value);
   } catch (e) {
@@ -117,26 +113,19 @@ const openImage = (path) => {
   window.open(`${baseUrl}/upload/${path}`, "_blank");
 };
 
-watch(
-  () => props.item.id,
-  fetchReviews,
-  { immediate: true }
-);
+watch(() => props.item.id, fetchReviews, { immediate: true });
 
 const deleteReview = async (reviewId) => {
   if (!confirm("리뷰를 삭제하시겠습니까?")) return;
 
   try {
-    await axios.delete(
-      `${baseUrl}/api/v1/review/${reviewId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    await axios.delete(`${baseUrl}/api/v1/review/${reviewId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    reviews.value = reviews.value.filter(r => r.id !== reviewId);
+    reviews.value = reviews.value.filter((r) => r.id !== reviewId);
 
     if (editingReviewId.value === reviewId) {
       editingReviewId.value = null;
@@ -148,9 +137,6 @@ const deleteReview = async (reviewId) => {
     alert("리뷰 삭제 실패");
   }
 };
-
-
-
 
 onMounted(fetchReviews);
 

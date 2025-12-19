@@ -44,7 +44,6 @@ import { ref, onUnmounted } from "vue";
 
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const token = localStorage.getItem("accessToken");
-const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -80,7 +79,10 @@ onUnmounted(() => {
 
 const submitReview = async () => {
   if (!props.item?.id) return alert("리뷰 대상 정보가 없습니다.");
-
+  if (!token) {
+    alert("로그인이 필요합니다. 로그인 후 리뷰를 등록해주세요.");
+    return;
+  }
   try {
     const formData = new FormData();
     formData.append("rating", rating.value);

@@ -21,6 +21,7 @@
 
       <EmptyMessage v-else />
     </div>
+    <div class="menu-page-footer"></div>
   </div>
 
   <Transition name="slide-fade">
@@ -55,10 +56,6 @@ const props = defineProps({
     default: () => ({ lat: 0, lng: 0, dist: 1 }),
   },
 });
-
-const selectPlace = (item) => {
-  emit("select-place", item);
-};
 </script>
 
 <style scoped>

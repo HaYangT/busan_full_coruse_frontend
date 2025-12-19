@@ -3,16 +3,24 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 const centerLat = ref(0);
 const centerLng = ref(0);
 const dist = ref(3);
 const places = ref([]);
-const DIST_OPTIONS = [1, 3, 5];
+
 const emit = defineEmits(["update-places", "update-center"]);
 const map = ref(null);
 const markers = ref([]);
+const accessToken = localStorage.getItem("accessToken");
+const refreshToken = localStorage.getItem("refreshToken");
+const props = defineProps({
+  searchQuery: {
+    type: String,
+    default: "",
+  },
+});
 const DEFAULT_COORDS = {
   LAT: 33.450701,
   LNG: 126.570667,
@@ -117,6 +125,33 @@ const fetchPlaces = async (lat, lng) => {
   }
 };
 
+const fetchPlacesByQuery = async (lat, lng, query) => {
+  if (!query) return;
+  const authHeader = accessToken ? { Authorization: `Bearer ${token}` } : null;
+  const params = {
+    x: lng,
+    y: lat,
+    dist: 10,
+  };
+  if (refreshToken) {
+    params.refreshToken = refreshToken;
+  }
+  try {
+    const baseUrl = import.meta.env.VITE_SERVER_URL;
+    const url = `${baseUrl}/api/v1/place/search/${query}`;
+    const response = await axios.get(url, {
+      params: params,
+      headers: { ...authHeader, "Content-Type": "multipart/form-data" },
+    });
+    emit("update-places", response.data);
+    emit("update-center", { lat: lat, lng: lng, dist: dist.value });
+    places.value = response.data;
+    displayMarkers(places.value);
+  } catch (error) {
+    console.error("에러발생", error);
+  }
+};
+
 const loadKakaoMap = async () => {
   const COORDS = await getCurrentLocation();
   const container = document.getElementById("map");
@@ -160,6 +195,15 @@ onMounted(() => {
     document.head.appendChild(script);
   }
 });
+
+watch(
+  () => props.searchQuery,
+  (newQuery) => {
+    if (newQuery) {
+      fetchPlacesByQuery(centerLat.value, centerLng.value, newQuery);
+    }
+  }
+);
 </script>
 
 <style scoped>
