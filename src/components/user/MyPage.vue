@@ -2,7 +2,6 @@
   <div class="mypage-page">
     <div class="mypage-box">
       <h2 class="mypage-title">마이페이지</h2>
-
       <div class="user-info-section">
         <div class="info-row">
           <span class="label">아이디</span>
@@ -19,9 +18,9 @@
       </div>
 
       <div class="tab-menu">
-        <button 
-          v-for="menu in menus" 
-          :key="menu.key" 
+        <button
+          v-for="menu in menus"
+          :key="menu.key"
           class="tab-item"
           :class="{ active: currentMenu === menu.key }"
           @click="currentMenu = menu.key"
@@ -33,32 +32,33 @@
       <div class="tab-content">
         <MyReviewList v-if="currentMenu === 'reviews'" />
         <GetMyTravelPage v-if="currentMenu === 'plans'" />
-        <div v-if="currentMenu === 'settings'" class="empty-state">
-          준비중인 기능입니다..
-        </div>
+        <div v-if="currentMenu === 'settings'" class="empty-state">준비중인 기능입니다..</div>
       </div>
     </div>
   </div>
+  <button class="back-btn" @click="goBack">뒤로가기</button>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import MyReviewList from './MyReviewList.vue';
-import GetMyTravelPage from './GetMyTravelPage.vue';
+import { ref } from "vue";
+import MyReviewList from "./MyReviewList.vue";
+import GetMyTravelPage from "./GetMyTravelPage.vue";
+import { useRouter } from "vue-router";
 
 const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-
+const currentMenu = ref("reviews");
 const userId = userInfo.userId || "";
 const nickname = userInfo.nickname || "";
 const email = userInfo.email || "";
-
+const router = useRouter();
 const menus = [
-  { key: 'reviews', name: '나의 리뷰' },
-  { key: 'plans', name: '여행 계획' },
-  { key: 'settings', name: '정보 수정' } 
+  { key: "reviews", name: "나의 리뷰" },
+  { key: "plans", name: "여행 계획" },
+  { key: "settings", name: "정보 수정" },
 ];
-
-const currentMenu = ref('reviews');
+const goBack = () => {
+  router.back();
+};
 </script>
 
 <style scoped>
@@ -67,8 +67,9 @@ const currentMenu = ref('reviews');
   background: #f4f6f8;
   display: flex;
   justify-content: center;
-  align-items: flex-start; 
+  align-items: flex-start;
   padding: 60px 16px;
+  position: relative;
 }
 
 .mypage-box {
@@ -135,23 +136,22 @@ const currentMenu = ref('reviews');
 }
 
 .tab-item.active {
-  color: #222; 
+  color: #222;
   font-weight: 700;
 }
 
 .tab-item.active::after {
-  content: '';
+  content: "";
   position: absolute;
-  bottom: -2px; 
+  bottom: -2px;
   left: 0;
   width: 100%;
   height: 2px;
   background-color: #222;
 }
 
-
 .tab-content {
-  min-height: 200px; 
+  min-height: 200px;
   animation: fadeIn 0.3s ease;
 }
 
@@ -160,9 +160,30 @@ const currentMenu = ref('reviews');
   color: #999;
   padding: 40px 0;
 }
+.back-btn {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  background: none;
+  color: #4f9cf9;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.back-btn:hover {
+  color: #555;
+}
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
