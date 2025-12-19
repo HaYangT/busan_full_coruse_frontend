@@ -138,6 +138,7 @@ const openLoginFromReset = () => {
 const handleLoginSuccess = () => {
   isLoginPageVisible.value = false;
   isLoggedIn.value = true;
+  location.reload();
 };
 
 if (localStorage.getItem("accessToken")) {

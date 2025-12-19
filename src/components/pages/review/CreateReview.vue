@@ -1,22 +1,10 @@
 <template>
   <form class="review-form" @submit.prevent="submitReview">
     <h3>리뷰 등록</h3>
-
-    <div class="review-item-info">
-      <strong>{{ item?.name }} 리뷰 작성</strong>
-      <p class="review-user">작성자: {{ userInfo?.nickname || "알 수 없음" }}</p>
-    </div>
-
     <div class="review-rating">
       <label>별점</label>
       <div class="stars">
-        <span
-          v-for="star in 5"
-          :key="star"
-          class="star"
-          :class="{ active: star <= rating }"
-          @click="rating = star"
-        >
+        <span v-for="star in 5" :key="star" class="star" :class="{ active: star <= rating }" @click="rating = star">
           ★
         </span>
       </div>
@@ -26,13 +14,7 @@
     <div class="review-images">
       <label class="upload-btn">
         📷 사진 추가
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          class="hidden-input"
-          @change="handleFileChange"
-        />
+        <input type="file" multiple accept="image/*" class="hidden-input" @change="handleFileChange" />
       </label>
 
       <div v-if="previewImages.length" class="preview-list">
@@ -49,13 +31,12 @@
       placeholder="솔직한 리뷰 내용을 입력해주세요."
       required
     ></textarea>
-
-    <button type="submit" class="submit-button">
-      리뷰 등록 완료
-    </button>
+    <div class="form-actions">
+      <button type="submit" class="submit-button">리뷰 등록 완료</button>
+      <button type="button" class="cancel-button" @click="cancelReview">취소 하기</button>
+    </div>
   </form>
 </template>
-
 
 <script setup>
 import axios from "axios";
@@ -66,7 +47,7 @@ const token = localStorage.getItem("accessToken");
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 const props = defineProps({
-  item: { type: Object, required: true }
+  item: { type: Object, required: true },
 });
 const emit = defineEmits(["created"]);
 
@@ -80,7 +61,7 @@ const handleFileChange = (e) => {
   if (!files.length) return;
 
   selectedFiles.value.push(...files);
-  files.forEach(file => {
+  files.forEach((file) => {
     previewImages.value.push({ url: URL.createObjectURL(file), file });
   });
 
@@ -94,7 +75,7 @@ const removeImage = (index) => {
 };
 
 onUnmounted(() => {
-  previewImages.value.forEach(img => URL.revokeObjectURL(img.url));
+  previewImages.value.forEach((img) => URL.revokeObjectURL(img.url));
 });
 
 const submitReview = async () => {
@@ -106,10 +87,10 @@ const submitReview = async () => {
     formData.append("content", content.value);
     formData.append("targetId", props.item.id);
     formData.append("targetType", props.item.tagType || "PLACE");
-    selectedFiles.value.forEach(file => formData.append("images", file));
+    selectedFiles.value.forEach((file) => formData.append("images", file));
 
     await axios.post(`${baseUrl}/api/v1/review`, formData, {
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
     });
 
     alert("리뷰가 등록되었습니다!");
@@ -123,9 +104,18 @@ const submitReview = async () => {
     alert("리뷰 등록 실패");
   }
 };
+
+const cancelReview = () => {
+  if (!confirm("리뷰 작성을 취소하시겠습니까?")) return;
+  rating.value = 5;
+  content.value = "";
+  selectedFiles.value = [];
+  previewImages.value.forEach((img) => URL.revokeObjectURL(img.url));
+  previewImages.value = [];
+  emit("created");
+};
 </script>
 
-
 <style scoped>
-@import '/src/styles/Review.css';
+@import "/src/styles/Review.css";
 </style>
