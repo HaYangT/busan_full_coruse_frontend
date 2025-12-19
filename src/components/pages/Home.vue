@@ -19,11 +19,10 @@
     <!-- 메인 콘텐츠 -->
     <div class="content-area">
       <div class="app-container">
-        <SearchBar class="search-overlay" />
         <KakaoMap ref="mapRef" @update-center="handleCenterUpdate" @update-places="handlePlacesUpdate" />
       </div>
     </div>
-
+    <SearchBar class="search-overlay" />
     <!-- 메뉴 토글 -->
     <ToggleButton
       v-if="!isMenuPageVisible"
