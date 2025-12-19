@@ -109,3 +109,26 @@
   margin-bottom: 4px;
   padding-left: 2px;
 }
+
+.check-button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #4a90e2;
+  background-color: #f4f8ff;
+
+  color: #4a90e2;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.check-button:hover {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+.check-button:active {
+  transform: scale(0.96);
+}

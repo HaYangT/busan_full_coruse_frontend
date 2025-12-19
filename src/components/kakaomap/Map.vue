@@ -1,53 +1,34 @@
 <template>
   <div id="map"></div>
-
-  <div class="coords-info">
-    <h3>현재 지도 중심 좌표</h3>
-    <div class="distance-buttons">
-      <span>검색 반경:</span>
-      <button
-        v-for="km in DIST_OPTIONS"
-        :key="km"
-        :class="{ active: dist === km }"
-        @click="setDistance(km)"
-      >
-        {{ km }} km
-      </button>
-    </div>
-
-    <p>위도: {{ centerLat.toFixed(6) }}</p>
-    <p>경도: {{ centerLng.toFixed(6) }}</p>
-  </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import axios from 'axios'
+import { onMounted, ref } from "vue";
+import axios from "axios";
 const centerLat = ref(0);
 const centerLng = ref(0);
-const dist = ref(1);
+const dist = ref(3);
 const places = ref([]);
-const DIST_OPTIONS = [1, 3, 5]
-const emit = defineEmits(['update-places','update-center']);
-const map = ref(null); 
+const DIST_OPTIONS = [1, 3, 5];
+const emit = defineEmits(["update-places", "update-center"]);
+const map = ref(null);
 const markers = ref([]);
 const DEFAULT_COORDS = {
-    LAT: 33.450701, 
-    LNG: 126.570667,
+  LAT: 33.450701,
+  LNG: 126.570667,
 };
 
-
 const panTo = (lat, lng) => {
-  if (!map.value) return
+  if (!map.value) return;
 
-  const moveLatLng = new window.kakao.maps.LatLng(lat, lng)
-  map.value.setLevel(3)
-  map.value.panTo(moveLatLng)
-}
+  const moveLatLng = new window.kakao.maps.LatLng(lat, lng);
+  map.value.setLevel(3);
+  map.value.panTo(moveLatLng);
+};
 
 defineExpose({
-  panTo
-})
+  panTo,
+});
 
 const getCurrentLocation = () => {
   return new Promise((resolve) => {
@@ -68,121 +49,119 @@ const getCurrentLocation = () => {
         resolve(DEFAULT_COORDS);
       },
       {
-        timeout: 5000, 
+        timeout: 5000,
       }
     );
   });
 };
 
 const setDistance = (km) => {
-  dist.value = km
+  dist.value = km;
   if (centerLat.value && centerLng.value) {
-    fetchPlaces(centerLat.value, centerLng.value)
+    fetchPlaces(centerLat.value, centerLng.value);
   }
-}
+};
 
 const removeMarkers = () => {
-    for (let i = 0; i < markers.value.length; i++) {
-        markers.value[i].setMap(null);
-    }   
-    markers.value = [];
+  for (let i = 0; i < markers.value.length; i++) {
+    markers.value[i].setMap(null);
+  }
+  markers.value = [];
 };
 
 const displayMarkers = (placeList) => {
-    if (!map.value) return;
+  if (!map.value) return;
 
-    removeMarkers(); 
+  removeMarkers();
 
-    for (let i = 0; i < placeList.length; i++) {
-        const place = placeList[i];
-        const position = new window.kakao.maps.LatLng(place.y, place.x);
-        
-        const marker = new window.kakao.maps.Marker({
-            map: map.value, 
-            position: position,
-            title: place.name, 
-        });
+  for (let i = 0; i < placeList.length; i++) {
+    const place = placeList[i];
+    const position = new window.kakao.maps.LatLng(place.y, place.x);
 
-        markers.value.push(marker);
-        const infowindow = new window.kakao.maps.InfoWindow({
-            content: `<div style="padding:5px;font-size:12px;">${place.name}</div>`
-        });
-        window.kakao.maps.event.addListener(marker, 'mouseover', function() {
-              infowindow.open(map.value, marker);
-        });
+    const marker = new window.kakao.maps.Marker({
+      map: map.value,
+      position: position,
+      title: place.name,
+    });
 
-        window.kakao.maps.event.addListener(marker, 'mouseout', function() {
-              infowindow.close();
-        });
-    }
-};
-  const fetchPlaces = async(lat,lng) => {
-    try{
-      const baseUrl = import.meta.env.VITE_SERVER_URL;
-      const url = `${baseUrl}/api/v1/place/getPlaces`
-      const response = await axios.get(url,{
-        params:{
-          x: lng,
-          y: lat,
-          dist: dist.value
-        }
-      });
-      emit('update-places',response.data);
-      emit('update-center',{lat: lat, lng : lng, dist: dist.value});
-      places.value = response.data;
-      displayMarkers(places.value);
+    markers.value.push(marker);
+    const infowindow = new window.kakao.maps.InfoWindow({
+      content: `<div style="padding:5px;font-size:12px;">${place.name}</div>`,
+    });
+    window.kakao.maps.event.addListener(marker, "mouseover", function () {
+      infowindow.open(map.value, marker);
+    });
 
-    }    catch(error){
-      console.error("에러발생", error);
-    }
-    
+    window.kakao.maps.event.addListener(marker, "mouseout", function () {
+      infowindow.close();
+    });
   }
+};
+const fetchPlaces = async (lat, lng) => {
+  try {
+    const baseUrl = import.meta.env.VITE_SERVER_URL;
+    const url = `${baseUrl}/api/v1/place/getPlaces`;
+    const response = await axios.get(url, {
+      params: {
+        x: lng,
+        y: lat,
+        dist: dist.value,
+      },
+    });
+    emit("update-places", response.data);
+    emit("update-center", { lat: lat, lng: lng, dist: dist.value });
+    places.value = response.data;
+    displayMarkers(places.value);
+  } catch (error) {
+    console.error("에러발생", error);
+  }
+};
 
 const loadKakaoMap = async () => {
-    const COORDS = await getCurrentLocation();
-    const container = document.getElementById('map');
+  const COORDS = await getCurrentLocation();
+  const container = document.getElementById("map");
 
-    centerLat.value = COORDS.LAT;
-    centerLng.value = COORDS.LNG;
+  centerLat.value = COORDS.LAT;
+  centerLng.value = COORDS.LNG;
 
-    const options = {
-        center: new window.kakao.maps.LatLng(COORDS.LAT, COORDS.LNG),
-        level: 3
-    };
+  const options = {
+    center: new window.kakao.maps.LatLng(COORDS.LAT, COORDS.LNG),
+    level: 3,
+  };
 
-    const kakaoMap = new window.kakao.maps.Map(container, options);
-    map.value = kakaoMap; 
+  const kakaoMap = new window.kakao.maps.Map(container, options);
+  map.value = kakaoMap;
 
-    fetchPlaces(COORDS.LAT, COORDS.LNG); 
-    window.kakao.maps.event.addListener(map.value, 'dragend', async () => {
-        const latlng = map.value.getCenter(); 
-        const lat = latlng.getLat();
-        const lng = latlng.getLng();
-        centerLat.value = lat;
-        centerLng.value = lng;
-        
-        fetchPlaces(lat,lng);
-    });
+  fetchPlaces(COORDS.LAT, COORDS.LNG);
+  window.kakao.maps.event.addListener(map.value, "dragend", async () => {
+    const latlng = map.value.getCenter();
+    const lat = latlng.getLat();
+    const lng = latlng.getLng();
+    centerLat.value = lat;
+    centerLng.value = lng;
+
+    fetchPlaces(lat, lng);
+  });
 };
 
 onMounted(() => {
   if (window.kakao && window.kakao.maps) {
     loadKakaoMap();
   } else {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${import.meta.env.VITE_KAKAO_API_KEY}`;
-    
+
     script.onload = () => {
       window.kakao.maps.load(() => {
         loadKakaoMap();
       });
     };
-    
+
     document.head.appendChild(script);
   }
 });
 </script>
 
 <style scoped>
-@import '/src/styles/Map.css';
+@import "/src/styles/Map.css";
 </style>

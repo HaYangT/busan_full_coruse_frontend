@@ -33,6 +33,9 @@ body {
 
 .app-container {
   text-align: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .app-toggle-button {
@@ -68,4 +71,22 @@ body {
   font-weight: bold;
   cursor: pointer;
   z-index: 2000;
+}
+.search-overlay {
+  position: absolute;
+  top: 20px;
+  left: 1%;
+  width: 250px;
+  height: 30px;
+
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 3000;
 }

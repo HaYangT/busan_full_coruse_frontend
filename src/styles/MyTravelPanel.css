@@ -37,7 +37,7 @@
 
 .panel-footer {
   margin-top: auto;
-  padding-bottom: 24px; 
+  padding-bottom: 24px;
 }
 
 .register-btn {
@@ -80,7 +80,7 @@
 }
 
 .hint-tooltip::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   left: 50%;
@@ -110,4 +110,41 @@
   color: #000;
   transform: rotate(90deg);
 }
+.tour-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
+  padding: 10px 12px;
+  margin-bottom: 8px;
+
+  background: #f9fafb;
+  border-radius: 10px;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tour-item:hover {
+  background: #f1f5f9;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+.drag-handle {
+  cursor: grab;
+  color: #64748b;
+  font-size: 16px;
+  user-select: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.title-input {
+  border-radius: 10px;
+  width: 300px;
+  height: 30px;
+  align-items: center;
+  padding: 3px;
+  padding-left: 10px;
+}

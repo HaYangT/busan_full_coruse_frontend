@@ -6,12 +6,12 @@
       <form class="regist-form" @submit.prevent="onRegist">
         <div class="row">
           <input type="text" v-model="userId" placeholder="아이디" required />
-          <button type="button" @click="checkUserId">중복체크</button>
+          <button type="button" class="check-button" @click="checkUserId">중복체크</button>
         </div>
 
         <div class="row">
           <input type="email" v-model="email" placeholder="이메일" required />
-          <button type="button" @click="checkEmail">중복체크</button>
+          <button type="button" class="check-button" @click="checkEmail">중복체크</button>
         </div>
 
         <input type="text" v-model="nickname" placeholder="닉네임" required />
