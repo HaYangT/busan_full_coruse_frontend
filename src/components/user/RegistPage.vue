@@ -39,7 +39,7 @@
 import { ref, watch } from "vue";
 import axios from "axios";
 
-const emit = defineEmits(["open-login"]);
+const emit = defineEmits(["open-login", "close"]);
 
 const userId = ref("");
 const password = ref("");

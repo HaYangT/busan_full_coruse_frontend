@@ -28,7 +28,7 @@ import { ref } from "vue";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const userId = ref("");
 const password = ref("");
-const emit = defineEmits(["login-success", "close"]);
+const emit = defineEmits(["login-success", "close", "open-register", "open-resetpassword"]);
 
 const onLogin = async () => {
   try {
