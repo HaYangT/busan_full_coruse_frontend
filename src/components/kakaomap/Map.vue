@@ -5,7 +5,7 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
-import api from '@/filter/filter'; 
+import api from "@/filter/filter";
 const centerLat = ref(0);
 const centerLng = ref(0);
 const places = ref([]);
@@ -158,7 +158,7 @@ const fetchPlacesByQuery = async (lat, lng, query) => {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
     const url = `${baseUrl}/api/v1/place/search/${query}`;
     const response = await api.get(url, {
-      params: params
+      params: params,
     });
 
     emit("update-places", response.data);
@@ -218,9 +218,13 @@ watch(
   () => props.searchQuery,
   (newQuery) => {
     if (newQuery) {
+      console.log(newQuery);
       fetchPlacesByQuery(centerLat.value, centerLng.value, newQuery);
     }
-  },
+  }
+);
+
+watch(
   () => props.searchDist,
   (newDist) => {
     if (newDist) {
