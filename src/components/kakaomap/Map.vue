@@ -5,6 +5,7 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
+import api from '@/filter/filter'; 
 const centerLat = ref(0);
 const centerLng = ref(0);
 const places = ref([]);
@@ -104,7 +105,7 @@ const fetchPlaces = async (lat, lng) => {
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
     const url = `${baseUrl}/api/v1/place/getPlaces`;
-    const response = await axios.get(url, {
+    const response = await axios.post(url, null, {
       params: {
         x: lng,
         y: lat,
@@ -121,29 +122,51 @@ const fetchPlaces = async (lat, lng) => {
 };
 
 const fetchPlacesByQuery = async (lat, lng, query) => {
+  // if (!query) return;
+  // const authHeader = accessToken ? { Authorization: `Bearer ${token}` } : null;
+  // const params = {
+  //   x: lng,
+  //   y: lat,
+  //   dist: props.searchDist,
+  // };
+  // if (refreshToken) {
+  //   params.refreshToken = refreshToken;
+  // }
+  // try {
+  //   const baseUrl = import.meta.env.VITE_SERVER_URL;
+  //   const url = `${baseUrl}/api/v1/place/search/${query}`;
+  //   const response = await axios.get(url, {
+  //     params: params,
+  //     headers: { ...authHeader, "Content-Type": "multipart/form-data" },
+  //   });
+  //   emit("update-places", response.data);
+  //   emit("update-center", { lat: lat, lng: lng, dist: props.searchDist });
+  //   places.value = response.data;
+  //   displayMarkers(places.value);
+  // } catch (error) {
+  //   console.error("에러발생", error);
+  // }
   if (!query) return;
-  const authHeader = accessToken ? { Authorization: `Bearer ${token}` } : null;
+
   const params = {
     x: lng,
     y: lat,
     dist: props.searchDist,
   };
-  if (refreshToken) {
-    params.refreshToken = refreshToken;
-  }
+
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
     const url = `${baseUrl}/api/v1/place/search/${query}`;
-    const response = await axios.get(url, {
-      params: params,
-      headers: { ...authHeader, "Content-Type": "multipart/form-data" },
+    const response = await api.get(url, {
+      params: params
     });
+
     emit("update-places", response.data);
     emit("update-center", { lat: lat, lng: lng, dist: props.searchDist });
     places.value = response.data;
     displayMarkers(places.value);
   } catch (error) {
-    console.error("에러발생", error);
+    console.error("검색 실패 혹은 인증 만료:", error);
   }
 };
 
