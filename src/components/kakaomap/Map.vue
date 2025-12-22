@@ -9,7 +9,7 @@ import api from "@/filter/filter";
 const centerLat = ref(0);
 const centerLng = ref(0);
 const places = ref([]);
-const emit = defineEmits(["update-places", "update-center"]);
+const emit = defineEmits(["update-places", "update-center", "select-place"]);
 const map = ref(null);
 const markers = ref([]);
 const accessToken = localStorage.getItem("accessToken");
@@ -86,18 +86,12 @@ const displayMarkers = (placeList) => {
       map: map.value,
       position: position,
       title: place.name,
+      clickable: true,
     });
 
     markers.value.push(marker);
-    const infowindow = new window.kakao.maps.InfoWindow({
-      content: `<div style="padding:5px;font-size:12px;">${place.name}</div>`,
-    });
-    window.kakao.maps.event.addListener(marker, "mouseover", function () {
-      infowindow.open(map.value, marker);
-    });
-
-    window.kakao.maps.event.addListener(marker, "mouseout", function () {
-      infowindow.close();
+    kakao.maps.event.addListener(marker, "click", () => {
+      emit("select-place", place);
     });
   }
 };
