@@ -14,7 +14,7 @@
       </div>
     </header>
     <div class="sub-page">
-      <SubMenuBar @add-to-list="addToMyTour" @write-review="openCreateReview" />
+      <SubMenuBar @add-to-list="addToMyTour" @write-review="openCreateReview" @use-ai-recommand="useAiRecommand"/>
       <ReviewList v-show="isReviewListVisible" :item="item" ref="reviewListRef" />
       <CreateReview v-show="isReviewFormVisible" :item="item" @created="onReviewCreated" />
     </div>
@@ -33,7 +33,7 @@ const props = defineProps({
   item: { type: Object, required: true },
 });
 
-const emit = defineEmits(["close", "toggle-all"]);
+const emit = defineEmits(["close", "toggle-all", "request-recommand"]);
 
 const travelPlanStore = useTravelPlanStore();
 
@@ -63,6 +63,11 @@ const onReviewCreated = () => {
 
 const addToMyTour = () => {
   travelPlanStore.addPlace(props.item);
+};
+
+const useAiRecommand = () => {
+  console.log("ai recommendation");
+  emit("request-recommand");
 };
 </script>
 

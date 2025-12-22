@@ -132,3 +132,45 @@
   transform: translateX(-20px);
   opacity: 0;
 }
+
+/* =========================
+   AiRecomendataion
+========================= */
+.recommand-loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* 배경을 어둡게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 최상단에 배치 */
+}
+
+.loading-box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #4a90e2; /* 브랜드 컬러 사용 */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-box p {
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}

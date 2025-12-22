@@ -55,6 +55,7 @@
       :selected-item="selectedPlace"
       @toggle-menu-page="handleToggleMenu"
       @select-place="handleSelectPlace"
+      @update-places="handlePlacesUpdate"
     />
   </div>
 
