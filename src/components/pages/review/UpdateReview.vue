@@ -40,6 +40,7 @@
 
 <script setup>
 import axios from "axios";
+import api from "@/filter/filter";
 import { ref, watch, onUnmounted } from "vue";
 
 const baseUrl = import.meta.env.VITE_SERVER_URL;
@@ -118,9 +119,7 @@ const submitUpdate = async () => {
 
     newFiles.value.forEach(file => formData.append("images", file));
 
-    await axios.put(`${baseUrl}/api/v1/review/${props.review.id}`, formData, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    await api.put(`${baseUrl}/api/v1/review/${props.review.id}`, formData, {});
 
     alert("수정 완료!");
     emit("updated");

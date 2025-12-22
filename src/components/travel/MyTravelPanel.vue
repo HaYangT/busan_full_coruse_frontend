@@ -48,6 +48,7 @@ import { ref } from "vue";
 import draggable from "vuedraggable";
 import { useTravelPlanStore } from "@/stores/useTravelPlanStore";
 import axios from "axios";
+import api from "@/filter/filter";
 
 const store = useTravelPlanStore();
 const baseUrl = import.meta.env.VITE_SERVER_URL;
@@ -89,9 +90,8 @@ const registerTrip = async () => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const res = await axios.post(`${baseUrl}/travel`, payload, {
+    const res = await api.post(`${baseUrl}/travel`, payload, {
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });

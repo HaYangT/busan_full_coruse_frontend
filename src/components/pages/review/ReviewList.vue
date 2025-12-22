@@ -56,6 +56,7 @@
 
 <script setup>
 import axios from "axios";
+import api from"@/filter/filter";
 import { ref, watch, onMounted } from "vue";
 import UpdateReview from "@/components/pages/review/UpdateReview.vue";
 const token = localStorage.getItem("accessToken");
@@ -119,11 +120,7 @@ const deleteReview = async (reviewId) => {
   if (!confirm("리뷰를 삭제하시겠습니까?")) return;
 
   try {
-    await axios.delete(`${baseUrl}/api/v1/review/${reviewId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    await api.delete(`${baseUrl}/api/v1/review/${reviewId}`, {});
 
     reviews.value = reviews.value.filter((r) => r.id !== reviewId);
 

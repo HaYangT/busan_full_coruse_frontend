@@ -35,6 +35,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import api from '@/filter/filter';
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const travelPlans = ref([]);
 const isLoading = ref(true);
@@ -57,11 +58,7 @@ const fetchMyPlans = async () => {
 
     const token = localStorage.getItem('accessToken');
 
-    const response = await axios.get(`${baseUrl}/travel`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    const response = await api.get(`${baseUrl}/travel`, {});
 
     travelPlans.value = response.data;
     console.log("가져온 데이터:", travelPlans.value);
@@ -80,11 +77,7 @@ const deletePlan = async (id) => {
   try {
     const token = localStorage.getItem('accessToken')
 
-    await axios.delete(`${baseUrl}/travel/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    await api.delete(`${baseUrl}/travel/${id}`, {})
 
     travelPlans.value = travelPlans.value.filter(
       plan => plan.id !== id

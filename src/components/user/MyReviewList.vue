@@ -50,6 +50,7 @@
 
 <script setup>
 import axios from "axios";
+import api from '@/filter/filter';
 import { ref, onMounted } from "vue";
 import UpdateReview from "@/components/pages/review/UpdateReview.vue"
 
@@ -63,14 +64,8 @@ const editingReview = ref(null);
 const fetchMyReviews = async () => {
   try {
     loading.value = true;
-    const res = await axios.get(
-      `${baseUrl}/api/v1/review/getReviewByUserId`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    const res = await api.get(
+      `${baseUrl}/api/v1/review/getReviewByUserId`,{});
     reviews.value = res.data;
   } catch (e) {
     console.error(e);
@@ -84,14 +79,8 @@ const deleteReview = async (id) => {
   if (!confirm("정말 삭제하시겠습니까?")) return;
 
   try {
-    await axios.delete(
-      `${baseUrl}/api/v1/review/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    await api.delete(
+      `${baseUrl}/api/v1/review/${id}`,{});
     reviews.value = reviews.value.filter(r => r.id !== id);
   } catch (e) {
     console.error(e);

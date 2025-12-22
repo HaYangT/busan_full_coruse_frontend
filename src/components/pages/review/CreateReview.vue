@@ -40,6 +40,7 @@
 
 <script setup>
 import axios from "axios";
+import api from "@/filter/filter";
 import { ref, onUnmounted } from "vue";
 
 const baseUrl = import.meta.env.VITE_SERVER_URL;
@@ -91,8 +92,9 @@ const submitReview = async () => {
     formData.append("targetType", props.item.tagType || "PLACE");
     selectedFiles.value.forEach((file) => formData.append("images", file));
 
-    await axios.post(`${baseUrl}/api/v1/review`, formData, {
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+    await api.post(`${baseUrl}/api/v1/review`, formData, {
+      // headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
     alert("리뷰가 등록되었습니다!");
