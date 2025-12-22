@@ -30,32 +30,24 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import DetailPage from "./DetailPage.vue";
 import ToggleButton from "./ToggleButton.vue";
 import EmptyMessage from "@/components/pages/menu/EmptyMessage.vue";
-const selectedItem = ref(null);
+const props = defineProps({
+  isMenuPageVisible: Boolean,
+  places: Array,
+  centerInfo: Object,
+  selectedItem: Object,
+});
 const emit = defineEmits(["toggle-menu-page", "close", "select-place"]);
 
 const openDetail = (item) => {
-  selectedItem.value = item;
   emit("select-place", item);
 };
 
 const closeDetail = () => {
-  selectedItem.value = null;
+  emit("select-place", null);
 };
-const props = defineProps({
-  isMenuPageVisible: { type: Boolean, default: false },
-  places: {
-    type: Array,
-    default: () => [],
-  },
-  centerInfo: {
-    type: Object,
-    default: () => ({ lat: 0, lng: 0, dist: 1 }),
-  },
-});
 </script>
 
 <style scoped>

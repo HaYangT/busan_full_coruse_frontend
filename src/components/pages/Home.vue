@@ -23,6 +23,7 @@
           ref="mapRef"
           @update-center="handleCenterUpdate"
           @update-places="handlePlacesUpdate"
+          @select-place="handleSelectPlaceFromMap"
           :search-query="searchQuery"
           :search-dist="searchRadius"
         />
@@ -51,6 +52,7 @@
       :is-menu-page-visible="isMenuPageVisible"
       :places="currentPlaces"
       :center-info="centerInfo"
+      :selected-item="selectedPlace"
       @toggle-menu-page="handleToggleMenu"
       @select-place="handleSelectPlace"
     />
@@ -121,6 +123,7 @@ const isMyTravelVisible = ref(false);
 const currentPlaces = ref([]);
 const centerInfo = ref({});
 const mapRef = ref(null);
+const selectedPlace = ref(null);
 
 const searchInput = ref("");
 const searchQuery = ref("");
@@ -177,6 +180,8 @@ const handleLogout = () => {
 };
 
 const handleSelectPlace = (place) => {
+  selectedPlace.value = place;
+  if (!place) return;
   mapRef.value?.panTo(place.y, place.x);
 };
 
@@ -196,6 +201,11 @@ const handlePlacesUpdate = (newPlaces) => {
 
 const handleCenterUpdate = (info) => {
   centerInfo.value = info;
+};
+
+const handleSelectPlaceFromMap = (place) => {
+  selectedPlace.value = place;
+  isMenuPageVisible.value = true;
 };
 
 const handleSearch = () => {
