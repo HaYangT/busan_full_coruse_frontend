@@ -65,8 +65,8 @@
 
   <!--거리 조절 바-->
   <div class="distance-control" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
-    <label for="radius">검색 반경: {{ searchRadius }}Km</label>
-    <input type="range" id="radius" v-model.number="searchRadius" min="1" max="10" step="0.1" />
+    <label for="radius">검색 반경: {{ sendRadius }}Km</label>
+    <input type="range" id="radius" v-model.number="sendRadius" min="1" max="10" step="0.1" @change="handleRadius" />
   </div>
 
   <!-- ===================== -->
@@ -125,6 +125,7 @@ const mapRef = ref(null);
 const searchInput = ref("");
 const searchQuery = ref("");
 const searchRadius = ref(1);
+const sendRadius = ref(1);
 
 const travelPlanStore = useTravelPlanStore();
 /* ================= 인증 ================= */
@@ -200,6 +201,10 @@ const handleCenterUpdate = (info) => {
 const handleSearch = () => {
   searchQuery.value = searchInput.value;
   isMenuPageVisible.value = true;
+};
+
+const handleRadius = () => {
+  searchRadius.value = sendRadius.value;
 };
 
 /* ========== 라우터 ========= */

@@ -218,7 +218,6 @@ watch(
   () => props.searchQuery,
   (newQuery) => {
     if (newQuery) {
-      console.log(newQuery);
       fetchPlacesByQuery(centerLat.value, centerLng.value, newQuery);
     }
   }
@@ -228,6 +227,7 @@ watch(
   () => props.searchDist,
   (newDist) => {
     if (newDist) {
+      console.log(newDist);
       fetchPlaces(centerLat.value, centerLng.value);
     }
   }
