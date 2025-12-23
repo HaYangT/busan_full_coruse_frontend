@@ -33,7 +33,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
 import api from "@/filter/filter";
 import RouteMap from "@/components/kakaomap/RouteMap.vue";
 import TravelEditPage from "@/components/travel/TravelEditPage.vue";
@@ -55,7 +54,7 @@ const formatDate = (dateString) => {
 const fetchDetail = async () => {
   const token = localStorage.getItem("accessToken");
 
-  const res = await api.get(`${baseUrl}/travel/${route.params.id}`, {});
+  const res = await api.get(`${baseUrl}/api/v1/travel/${route.params.id}`, {});
 
   plan.value = res.data;
   routeData.value = JSON.parse(res.data.route);
@@ -80,7 +79,7 @@ const saveRoute = async () => {
   const token = localStorage.getItem("accessToken");
 
   await api.put(
-    `${baseUrl}/travel/${route.params.id}`,
+    `${baseUrl}/api/v1/travel/${route.params.id}`,
     {
       route: JSON.stringify(routeData.value),
     },

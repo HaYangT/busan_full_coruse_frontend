@@ -90,7 +90,7 @@ const registerTrip = async () => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const res = await api.post(`${baseUrl}/travel`, payload, {
+    const res = await api.post(`${baseUrl}/api/v1/travel`, payload, {
       headers: {
         "Content-Type": "application/json",
       },
