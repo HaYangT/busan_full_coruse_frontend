@@ -21,7 +21,7 @@
 
     <div v-else class="empty-msg">
       <p>등록된 여행 계획이 없습니다.</p>
-      <button class="create-btn">여행 계획 만들기</button>
+      <button class="create-btn" @click="goToCreate">여행 계획 만들기</button>
     </div>
   </div>
 </template>
@@ -79,6 +79,10 @@ const deletePlan = async (id) => {
     console.error("삭제 실패:", error);
     alert("여행 계획 삭제에 실패했습니다.");
   }
+};
+
+const goToCreate = () => {
+  router.push("/");
 };
 
 onMounted(() => {
