@@ -56,7 +56,7 @@
 
 <script setup>
 import axios from "axios";
-import api from"@/filter/filter";
+import api from "@/filter/filter";
 import { ref, watch, onMounted } from "vue";
 import UpdateReview from "@/components/pages/review/UpdateReview.vue";
 const token = localStorage.getItem("accessToken");
@@ -121,7 +121,7 @@ const deleteReview = async (reviewId) => {
 
   try {
     await api.delete(`${baseUrl}/api/v1/review/${reviewId}`, {});
-
+    await fetchReviews();
     reviews.value = reviews.value.filter((r) => r.id !== reviewId);
 
     if (editingReviewId.value === reviewId) {

@@ -24,6 +24,7 @@
           @update-center="handleCenterUpdate"
           @update-places="handlePlacesUpdate"
           @select-place="handleSelectPlaceFromMap"
+          @refresh-map-query="refreshMap"
           :search-query="searchQuery"
           :search-dist="searchRadius"
         />
@@ -56,6 +57,7 @@
       @toggle-menu-page="handleToggleMenu"
       @select-place="handleSelectPlace"
       @update-places="handlePlacesUpdate"
+      @refresh-map-query="refreshMap"
     />
   </div>
 
@@ -216,6 +218,10 @@ const handleSearch = () => {
 
 const handleRadius = () => {
   searchRadius.value = sendRadius.value;
+};
+
+const refreshMap = () => {
+  mapRef.value?.reload();
 };
 
 /* ========== 라우터 ========= */

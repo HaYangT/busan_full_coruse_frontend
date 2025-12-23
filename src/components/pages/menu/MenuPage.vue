@@ -25,7 +25,14 @@
   </div>
 
   <Transition name="slide-fade">
-    <DetailPage v-if="selectedItem" :item="selectedItem" @close="closeDetail" @toggle-all="$emit('toggle-menu-page')" @request-recommand="handleAiRecommand"/>
+    <DetailPage
+      v-if="selectedItem"
+      :item="selectedItem"
+      @close="closeDetail"
+      @toggle-all="$emit('toggle-menu-page')"
+      @request-recommand="handleAiRecommand"
+      @refresh-all="$emit('refresh-map-query')"
+    />
   </Transition>
 
   <Teleport to="body" v-if="isRecommending">
@@ -77,10 +84,10 @@ const handleAiRecommand = async (tagType) => {
     };
 
     const response = await api.get(`${baseUrl}/api/v1/recommendation/places`, { params });
-    
+
     emit("update-places", response.data);
     alert("AI가 새로운 장소를 추천해드렸습니다!");
-    
+
     emit("select-place", null);
   } catch (error) {
     console.error("추천 실패:", error);
