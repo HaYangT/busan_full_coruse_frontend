@@ -59,6 +59,44 @@
   background: #cbd5f5;
   cursor: not-allowed;
 }
+.tour-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  margin-bottom: 8px;
+}
+
+.remove-btn {
+  margin-left: auto;
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff4d4f;
+
+  border: none;
+  border-radius: 50%;
+
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background-color: #ff4d4f;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.remove-btn:active {
+  transform: scale(0.95);
+}
 
 .register-wrapper {
   position: relative;

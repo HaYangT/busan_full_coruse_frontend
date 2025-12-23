@@ -1,6 +1,6 @@
 .button-menu {
   display: flex;
-  gap: 12px;
+  gap: 5px;
   justify-content: center;
   margin: 20px 0;
 }

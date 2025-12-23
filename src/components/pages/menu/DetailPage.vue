@@ -7,54 +7,55 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
-
-    <header class="detail-header">
-      <div class="image-container">
-        <img :src="imgUrl" :alt="item.name" class="custom-image" />
-        <span v-if="item.tagType" class="tag-badge">{{ item.tagType }}</span>
-      </div>
-    </header>
-
-    <main class="detail-info-area">
-      <div class="title-row">
-        <h1 class="place-title">{{ item.name }}</h1>
-        <div class="rating-box">
-          <span class="star">⭐</span>
-          <span class="rating-value">{{ item.averageRating || "0.0" }}</span>
+    <div class="detail-scroll-area">
+      <header class="detail-header">
+        <div class="image-container">
+          <img :src="imgUrl" :alt="item.name" class="custom-image" />
+          <span v-if="item.tagType" class="tag-badge">{{ item.tagType }}</span>
         </div>
-      </div>
+      </header>
 
-      <div class="info-list">
-        <div class="info-item">
-          <div class="icon-wrapper">📍</div>
-          <div class="info-content">
-            <span class="label">주소</span>
-            <p class="text">{{ item.address || "정보 없음" }}</p>
+      <main class="detail-info-area">
+        <div class="title-row">
+          <h1 class="place-title">{{ item.name }}</h1>
+          <div class="rating-box">
+            <span class="star">⭐</span>
+            <span class="rating-value">{{ item.averageRating || "0.0" }}</span>
           </div>
         </div>
 
-        <div class="info-item">
-          <div class="icon-wrapper">📞</div>
-          <div class="info-content">
-            <span class="label">문의/안내</span>
-            <p class="text">{{ item.tel || "정보 없음" }}</p>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="icon-wrapper">📍</div>
+            <div class="info-content">
+              <span class="label">주소</span>
+              <p class="text">{{ item.address || "정보 없음" }}</p>
+            </div>
           </div>
-        </div>
 
-        <div class="info-item">
-          <div class="icon-wrapper">⏰</div>
-          <div class="info-content">
-            <span class="label">이용 시간</span>
-            <p class="text">{{ item.openingHours || "정보 없음" }}</p>
+          <div class="info-item">
+            <div class="icon-wrapper">📞</div>
+            <div class="info-content">
+              <span class="label">문의/안내</span>
+              <p class="text">{{ item.tel || "정보 없음" }}</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="icon-wrapper">⏰</div>
+            <div class="info-content">
+              <span class="label">이용 시간</span>
+              <p class="text">{{ item.openingHours || "정보 없음" }}</p>
+            </div>
           </div>
         </div>
+      </main>
+
+      <div class="sub-page">
+        <SubMenuBar @add-to-list="addToMyTour" @write-review="openCreateReview" @use-ai-recommand="useAiRecommand" />
+        <ReviewList v-show="isReviewListVisible" :item="item" ref="reviewListRef" />
+        <CreateReview v-show="isReviewFormVisible" :item="item" @created="onReviewCreated" />
       </div>
-    </main>
-
-    <div class="sub-page">
-      <SubMenuBar @add-to-list="addToMyTour" @write-review="openCreateReview" @use-ai-recommand="useAiRecommand" />
-      <ReviewList v-show="isReviewListVisible" :item="item" ref="reviewListRef" />
-      <CreateReview v-show="isReviewFormVisible" :item="item" @created="onReviewCreated" />
     </div>
   </div>
 </template>
