@@ -38,3 +38,4 @@ __screenshots__/
 # Environment Variables
 .env 
 .env.*local
+src.zip
