@@ -32,7 +32,7 @@
       <div class="tab-content">
         <MyReviewList v-if="currentMenu === 'reviews'" />
         <GetMyTravelPage v-if="currentMenu === 'plans'" />
-        <div v-if="currentMenu === 'settings'" class="empty-state">준비중인 기능입니다..</div>
+        <UpdateMyInfoPage v-if="currentMenu === 'update'" />
       </div>
     </div>
   </div>
@@ -43,6 +43,7 @@
 import { ref } from "vue";
 import MyReviewList from "./MyReviewList.vue";
 import GetMyTravelPage from "./GetMyTravelPage.vue";
+import UpdateMyInfoPage from "./UpdateMyInfoPage.vue";
 import { useRouter } from "vue-router";
 
 const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
@@ -54,7 +55,7 @@ const router = useRouter();
 const menus = [
   { key: "reviews", name: "나의 리뷰" },
   { key: "plans", name: "여행 계획" },
-  { key: "settings", name: "정보 수정" },
+  { key: "update", name: "정보 수정" },
 ];
 const goBack = () => {
   router.back();
