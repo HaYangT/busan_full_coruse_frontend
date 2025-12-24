@@ -169,6 +169,7 @@ const travelPlanStore = useTravelPlanStore();
 
 const openLoginPage = () => {
   isLoginPageVisible.value = true;
+  isMenuPageVisible.value = false;
 };
 
 const closeLoginPage = () => {
