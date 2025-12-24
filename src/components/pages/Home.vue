@@ -27,18 +27,29 @@
           @refresh-map-query="refreshMap"
           :search-query="searchQuery"
           :search-dist="searchRadius"
+          :search-tag-id="searchTagId"
         />
       </div>
     </div>
 
-    <!--검색 창-->
-    <input
-      class="search-overlay"
-      v-model="searchInput"
-      @keydown.enter="handleSearch"
-      placeholder="장소 검색"
-      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible"
-    />
+    <!-- 검색 영역 -->
+    <div class="search-area" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
+      <!-- 검색 창 -->
+      <input class="search-overlay" v-model="searchInput" @keydown.enter="handleSearch" placeholder="장소 검색" />
+
+      <!-- 태그 버튼 영역 -->
+      <div class="tag-scroll" ref="tagScrollRef">
+        <button
+          v-for="tag in tagList"
+          :key="tag.id"
+          class="tag-button"
+          @click="handleTagClick(tag)"
+          :class="{ active: selectedTagId === tag.id }"
+        >
+          {{ tag.label }}
+        </button>
+      </div>
+    </div>
     <!-- 메뉴 토글 -->
     <ToggleButton
       v-if="!isMenuPageVisible"
@@ -98,7 +109,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import KakaoMap from "@/components/kakaomap/Map.vue";
@@ -132,6 +143,26 @@ const searchInput = ref("");
 const searchQuery = ref("");
 const searchRadius = ref(1);
 const sendRadius = ref(1);
+const tagScrollRef = ref(null);
+const selectedTagId = ref(0);
+const searchTagId = ref(0);
+const tagList = [
+  { id: 1, label: "한식" },
+  { id: 2, label: "일식" },
+  { id: 3, label: "아시아음식" },
+  { id: 4, label: "양식" },
+  { id: 5, label: "중식" },
+  { id: 6, label: "분식" },
+  { id: 7, label: "카페" },
+  { id: 8, label: "뷔페" },
+  { id: 9, label: "기타" },
+  { id: 12, label: "관광지" },
+  { id: 14, label: "문화시설" },
+  { id: 25, label: "여행코스" },
+  { id: 28, label: "레포츠" },
+  { id: 32, label: "숙박" },
+  { id: 38, label: "쇼핑" },
+];
 
 const travelPlanStore = useTravelPlanStore();
 /* ================= 인증 ================= */
@@ -224,6 +255,17 @@ const refreshMap = () => {
   mapRef.value?.reload();
 };
 
+const handleTagClick = (tag) => {
+  selectedTagId.value = tag.id;
+  searchTagId.value = tag.id;
+  isMenuPageVisible.value = true;
+};
+
+const onWheel = (e) => {
+  e.preventDefault();
+  tagScrollRef.value.scrollLeft += e.deltaY;
+};
+
 /* ========== 라우터 ========= */
 const router = useRouter();
 const goMyPage = () => {
@@ -232,6 +274,17 @@ const goMyPage = () => {
 
 onMounted(() => {
   travelPlanStore.load();
+});
+onMounted(() => {
+  const el = tagScrollRef.value;
+  if (!el) return;
+  el.addEventListener("wheel", onWheel, { passive: false });
+});
+
+onBeforeMount(() => {
+  const el = tagScrollRef.value;
+  if (!el) return;
+  el.removeEventListener("wheel", onWheel);
 });
 </script>
 

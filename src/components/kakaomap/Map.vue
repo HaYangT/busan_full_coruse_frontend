@@ -15,6 +15,10 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  searchTagId: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits(["update-places", "update-center", "select-place"]);
@@ -101,6 +105,25 @@ const fetchPlacesByQuery = async (lat, lng, query) => {
   }
 };
 
+const fetchPlacesByTag = async (lat, lng, tagId) => {
+  try {
+    const baseUrl = import.meta.env.VITE_SERVER_URL;
+    const url = `${baseUrl}/api/v1/place/tag/${tagId}`;
+
+    const response = await api.get(url, {
+      params: {
+        x: lng,
+        y: lat,
+        dist: props.searchDist,
+      },
+    });
+
+    processResponse(response.data, lat, lng);
+  } catch (error) {
+    console.error("태그 검색 API 에러:", error);
+  }
+};
+
 // 3. API 응답 공통 처리 (마커 표시 및 부모에게 알림)
 const processResponse = (data, lat, lng) => {
   places.value = data || [];
@@ -173,11 +196,16 @@ const loadKakaoMap = async () => {
 /* ================= 감시자 (Watchers) ================= */
 
 // 검색어 또는 반경이 변경될 때마다 데이터를 다시 불러옴
-watch([() => props.searchQuery, () => props.searchDist], ([newQuery, newDist]) => {
-  console.log(`조건 변경 - 검색어: ${newQuery}, 반경: ${newDist}`);
-  loadData();
-});
-
+watch(
+  () => [props.searchQuery, props.searchTagId, props.searchDist],
+  ([query, tagId]) => {
+    if (query) {
+      fetchPlacesByQuery(centerLat.value, centerLng.value, query);
+    } else if (tagId) {
+      fetchPlacesByTag(centerLat.value, centerLng.value, tagId);
+    }
+  }
+);
 onMounted(() => {
   if (window.kakao && window.kakao.maps) {
     loadKakaoMap();
