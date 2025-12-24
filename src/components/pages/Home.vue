@@ -154,7 +154,6 @@ const tagList = [
   { id: 5, label: "중식" },
   { id: 6, label: "분식" },
   { id: 7, label: "카페" },
-  { id: 8, label: "뷔페" },
   { id: 9, label: "기타" },
   { id: 12, label: "관광지" },
   { id: 14, label: "문화시설" },
