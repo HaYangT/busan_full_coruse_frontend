@@ -110,6 +110,10 @@ const addToMyTour = () => {
 };
 
 const useAiRecommand = () => {
+  if (!token) {
+    alert("로그인이 필요합니다. 로그인 후 리뷰를 등록해주세요.");
+    return;
+  }
   emit("request-recommand");
 };
 </script>
