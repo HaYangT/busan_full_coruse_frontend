@@ -109,7 +109,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from "vue";
+import { nextTick, onBeforeMount, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import KakaoMap from "@/components/kakaomap/Map.vue";
@@ -235,6 +235,7 @@ const handlePlacesUpdate = (newPlaces) => {
 
 const handleCenterUpdate = (info) => {
   centerInfo.value = info;
+  selectedTagId.value = null;
 };
 
 const handleSelectPlaceFromMap = (place) => {
@@ -257,7 +258,10 @@ const refreshMap = () => {
 
 const handleTagClick = (tag) => {
   selectedTagId.value = tag.id;
-  searchTagId.value = tag.id;
+  searchTagId.value = null;
+  nextTick(() => {
+    searchTagId.value = tag.id;
+  });
   isMenuPageVisible.value = true;
 };
 
