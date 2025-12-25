@@ -26,3 +26,35 @@
 .button-menu button:active {
   transform: translateY(1px);
 }
+
+/* ===================================
+   반응형 미디어 쿼리
+   =================================== */
+
+/* 모바일 (< 768px) */
+@media (max-width: 767px) {
+  .button-menu {
+    gap: 8px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .button-menu button {
+    padding: 12px 20px;
+    font-size: 15px;
+    min-height: 44px;
+  }
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .button-menu {
+    gap: 6px;
+    margin: 16px 0;
+  }
+
+  .button-menu button {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}

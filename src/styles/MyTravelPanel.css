@@ -186,3 +186,92 @@
   padding: 3px;
   padding-left: 10px;
 }
+
+/* ===================================
+   반응형 미디어 쿼리
+   =================================== */
+
+/* 모바일 (< 768px) - 전체 화면 모달 */
+@media (max-width: 767px) {
+  .my-travel-panel {
+    width: 100%;
+    right: 0;
+    padding: 20px;
+    z-index: 2200;
+  }
+
+  .panel-header {
+    margin-bottom: 16px;
+  }
+
+  .panel-header h2 {
+    font-size: 20px;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .title-input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  .tour-item {
+    padding: 14px 12px;
+    font-size: 16px;
+  }
+
+  .drag-handle {
+    font-size: 20px;
+  }
+
+  .remove-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .register-btn {
+    padding: 16px;
+    font-size: 18px;
+  }
+
+  .panel-footer {
+    padding-bottom: 32px;
+  }
+
+  /* 스크롤바 숨김 (모바일) */
+  .draggable-container::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .my-travel-panel {
+    width: 350px;
+  }
+
+  .title-input {
+    width: 100%;
+  }
+
+  .tour-item {
+    padding: 12px;
+  }
+}
+
+/* 데스크톱 (>= 1024px) - 기본 스타일 유지 */
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

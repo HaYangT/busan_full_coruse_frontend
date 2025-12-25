@@ -132,3 +132,54 @@
 .check-button:active {
   transform: scale(0.96);
 }
+
+/* ===================================
+   반응형 미디어 쿼리
+   =================================== */
+
+/* 모바일 (< 768px) */
+@media (max-width: 767px) {
+  .modal-box {
+    width: calc(100% - 32px);
+    max-width: 400px;
+    padding: 24px 20px;
+  }
+
+  .regist-form input {
+    padding: 14px 12px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+
+  .regist-form .regist-button {
+    padding: 14px;
+    font-size: 17px;
+    min-height: 48px;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    top: 16px;
+    right: 16px;
+  }
+
+  .check-button {
+    padding: 10px 14px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+
+  .links {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .modal-box {
+    width: 380px;
+  }
+}

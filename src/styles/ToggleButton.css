@@ -31,3 +31,28 @@
   width: 16px;
   height: 16px;
 }
+
+/* ===================================
+   반응형 미디어 쿼리
+   =================================== */
+
+/* 모바일 (< 768px) - 토글 버튼 숨김 (햄버거 메뉴로 대체) */
+@media (max-width: 767px) {
+  .toggle-button {
+    display: none;
+  }
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .toggle-button {
+    width: 20px;
+    height: 50px;
+    right: -20px;
+  }
+
+  .toggle-button:hover {
+    width: 28px;
+    right: -28px;
+  }
+}

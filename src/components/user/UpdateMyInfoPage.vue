@@ -50,7 +50,7 @@ const checkEmail = async () => {
 
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `${baseUrl}/api/v1/auth/checkEmail?email=${email.value}`;
+    const url = `${baseUrl}/api/v1/user/checkEmail?email=${email.value}`;
     const res = await axios.get(url);
 
     if (res.data === 1 && email.value !== userInfo.email) {
@@ -74,7 +74,7 @@ const onUpdate = async () => {
 
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `${baseUrl}/api/v1/auth/userUpdate`;
+    const url = `${baseUrl}/api/v1/user/userUpdate`;
 
     await axios.post(url, {
       email: email.value,

@@ -42,4 +42,35 @@ defineEmits(['click'])
   padding: 2px 6px;
   font-size: 12px;
 }
+
+/* ===================================
+   반응형 미디어 쿼리
+   =================================== */
+
+/* 모바일 (< 768px) */
+@media (max-width: 767px) {
+  .floating-my-travel {
+    right: 16px;
+    bottom: 16px;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+
+  .badge {
+    top: -4px;
+    right: -4px;
+    padding: 3px 7px;
+    font-size: 13px;
+  }
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .floating-my-travel {
+    right: 20px;
+    bottom: 20px;
+  }
+}
 </style>

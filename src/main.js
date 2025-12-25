@@ -4,6 +4,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import { useKakao } from 'vue3-kakao-maps'
+import './styles/global.css'
 const { VITE_KAKAO_API_KEY } = import.meta.env
 const app = createApp(App)
 useKakao()

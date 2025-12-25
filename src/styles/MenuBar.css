@@ -66,3 +66,90 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* 모바일 닫기 버튼 - 기본적으로 숨김 */
+.mobile-close-btn {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.mobile-close-btn:hover {
+  background: rgba(74, 144, 226, 0.2);
+  color: #4a90e2;
+  border-color: #4a90e2;
+}
+
+.mobile-close-btn:active {
+  background: rgba(74, 144, 226, 0.3);
+  transform: scale(0.95);
+}
+
+/* ===================================
+   반응형 미디어 쿼리
+   =================================== */
+
+/* 모바일 (< 768px) */
+@media (max-width: 767px) {
+  .sidebar-nav {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .mobile-close-btn {
+    display: flex;
+  }
+
+  .brand-header {
+    padding: 20px 20px 20px 20px;
+  }
+
+  .menu-link {
+    padding: 18px 20px;
+    font-size: 16px;
+  }
+
+  .menu-link.router-link-active,
+  .menu-link.router-link-exact-active {
+    padding-left: 16px;
+  }
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .brand-header {
+    padding: 16px 10px;
+    text-align: center;
+  }
+
+  .brand-link {
+    font-size: 1rem;
+  }
+
+  .menu-link {
+    padding: 15px 10px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .menu-link.router-link-active,
+  .menu-link.router-link-exact-active {
+    padding-left: 10px;
+    border-left: 3px solid #4a90e2;
+  }
+}

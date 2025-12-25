@@ -1,5 +1,20 @@
 <template>
   <div class="main-layout">
+    <!-- 햄버거 메뉴 버튼 (모바일 전용) -->
+    <button
+      class="hamburger-icon"
+      :class="{ active: isSidebarVisible }"
+      @click="toggleSidebar"
+      v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- 모바일 오버레이 배경 -->
+    <div class="mobile-overlay" :class="{ active: isSidebarVisible }" @click="closeSidebar"></div>
+
     <!-- 로그인 / 로그아웃 -->
     <button
       class="main-login-button"
@@ -14,7 +29,7 @@
     <button class="my-page-button" v-show="isLoggedIn" @click="goMyPage">내정보</button>
 
     <!-- 사이드바 -->
-    <MenuBar class="sidebar" />
+    <MenuBar class="sidebar" :class="{ 'mobile-open': isSidebarVisible }" @close-sidebar="closeSidebar" />
 
     <!-- 메인 콘텐츠 -->
     <div class="content-area">
@@ -33,7 +48,7 @@
     </div>
 
     <!-- 검색 영역 -->
-    <div class="search-area" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
+    <div class="search-area" :class="{ 'sidebar-open': isSidebarVisible }" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
       <!-- 검색 창 -->
       <input class="search-overlay" v-model="searchInput" @keydown.enter="handleSearch" placeholder="장소 검색" />
 
@@ -80,7 +95,7 @@
   <MyTravelPanel v-if="isMyTravelVisible" @close="isMyTravelVisible = false" />
 
   <!--거리 조절 바-->
-  <div class="distance-control" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
+  <div class="distance-control" :class="{ 'sidebar-open': isSidebarVisible }" v-show="!isLoginPageVisible && !isRegistPageVisible && !isResetPasswordVisible">
     <label for="radius">검색 반경: {{ sendRadius }}Km</label>
     <input type="range" id="radius" v-model.number="sendRadius" min="1" max="10" step="0.1" @change="handleRadius" />
   </div>
@@ -133,6 +148,7 @@ const isRegistPageVisible = ref(false);
 const isResetPasswordVisible = ref(false);
 const isLoggedIn = ref(false);
 const isMyTravelVisible = ref(false);
+const isSidebarVisible = ref(false);
 
 const currentPlaces = ref([]);
 const centerInfo = ref({});
@@ -221,6 +237,14 @@ const handleSelectPlace = (place) => {
 
 const toggleMyTravel = () => {
   isMyTravelVisible.value = !isMyTravelVisible.value;
+};
+
+const toggleSidebar = () => {
+  isSidebarVisible.value = !isSidebarVisible.value;
+};
+
+const closeSidebar = () => {
+  isSidebarVisible.value = false;
 };
 
 /* ================= 지도 / 메뉴 ================= */

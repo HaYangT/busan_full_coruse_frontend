@@ -72,7 +72,7 @@ const checkUserId = async () => {
 
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `${baseUrl}/api/v1/auth/checkUserId?userId=${userId.value}`;
+    const url = `${baseUrl}/api/v1/user/checkUserId?userId=${userId.value}`;
     const res = await axios.get(url);
 
     if (res.data === 1) {
@@ -92,7 +92,7 @@ const checkEmail = async () => {
 
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `${baseUrl}/api/v1/auth/checkEmail?email=${email.value}`;
+    const url = `${baseUrl}/api/v1/user/checkEmail?email=${email.value}`;
     const res = await axios.get(url);
 
     if (res.data === 1) {
@@ -124,7 +124,7 @@ const onRegist = async () => {
 
   try {
     const baseUrl = import.meta.env.VITE_SERVER_URL;
-    const url = `${baseUrl}/api/v1/auth/regist`;
+    const url = `${baseUrl}/api/v1/user/regist`;
 
     await axios.post(url, {
       userId: userId.value,
