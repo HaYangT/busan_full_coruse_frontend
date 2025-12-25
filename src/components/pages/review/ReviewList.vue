@@ -7,7 +7,7 @@
     <div v-else-if="reviews.length === 0" class="review-empty">아직 작성된 리뷰가 없습니다.</div>
 
     <div v-else class="review-list">
-      <div v-for="review in reviews" :key="review.id" class="review-block">
+      <div v-for="review in reviews" :key="review.id" class="review-block" :ref = "el => setReviewRef(review.id, el)">
         <div class="review-item">
           <div class="review-user">
             {{ review.nickname || "익명" }}
@@ -57,12 +57,12 @@
 <script setup>
 import axios from "axios";
 import api from "@/filter/filter";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, nextTick } from "vue";
 import UpdateReview from "@/components/pages/review/UpdateReview.vue";
 const token = localStorage.getItem("accessToken");
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
+const reviewRefs = ref({});
 const props = defineProps({
   item: { type: Object, required: true },
 });
@@ -75,8 +75,23 @@ const isMyReview = (review) => {
   return userInfo && review.userId === userInfo.id;
 };
 
-const toggleEdit = (id) => {
+const toggleEdit = async(id) => {
   editingReviewId.value = editingReviewId.value === id ? null : id;
+
+  if (editingReviewId.value) {
+    await nextTick();
+
+    reviewRefs.value[id]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+};
+
+const setReviewRef = (id, el) => {
+  if (el) {
+    reviewRefs.value[id] = el;
+  }
 };
 
 const fetchReviews = async () => {

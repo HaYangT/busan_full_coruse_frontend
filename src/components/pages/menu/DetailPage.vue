@@ -51,7 +51,7 @@
         </div>
       </main>
 
-      <div class="sub-page">
+      <div class="sub-page" ref="reviewSectionRef">
         <SubMenuBar @add-to-list="addToMyTour" @write-review="openCreateReview" @use-ai-recommand="useAiRecommand" />
         <ReviewList v-show="isReviewListVisible" :item="item" ref="reviewListRef" />
         <CreateReview v-show="isReviewFormVisible" :item="item" @created="onReviewCreated" />
@@ -61,14 +61,14 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, nextTick } from "vue";
 import ToggleButton from "@/components/pages/menu/ToggleButton.vue";
 import SubMenuBar from "@/components/pages/menu/SubMenuBar.vue";
 import ReviewList from "../review/ReviewList.vue";
 import CreateReview from "../review/CreateReview.vue";
 import { useTravelPlanStore } from "@/stores/useTravelPlanStore";
 const token = localStorage.getItem("accessToken");
-
+const reviewSectionRef = ref(null);
 const props = defineProps({
   item: { type: Object, required: true },
 });
@@ -89,20 +89,33 @@ const isReviewListVisible = ref(true);
 const isReviewFormVisible = ref(false);
 const reviewListRef = ref(null);
 
-const openCreateReview = () => {
+const openCreateReview = async () => {
   if (!token) {
     alert("로그인이 필요합니다. 로그인 후 리뷰를 등록해주세요.");
     return;
   }
   isReviewListVisible.value = false;
   isReviewFormVisible.value = true;
+  await nextTick();
+
+  reviewSectionRef.value?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
 };
 
-const onReviewCreated = () => {
+const onReviewCreated = async() => {
   isReviewFormVisible.value = false;
   isReviewListVisible.value = true;
+  reviewSectionRef.value?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+
   reviewListRef.value?.fetchReviews();
   emit("refresh-all");
+
+
 };
 
 const addToMyTour = () => {
